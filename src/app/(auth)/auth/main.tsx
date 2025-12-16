@@ -1,232 +1,18 @@
 "use client";
 
-import { useState, useEffect } from 'react';
-import { ArrowLeft, Eye, EyeOff, GraduationCap } from 'lucide-react';
+import { useState, useEffect } from "react";
 import Image from "next/image";
+import { motion, AnimatePresence } from "framer-motion";
+
+// Import file komponen
+import LoginPage from "./components/LoginPage";
+import RegisterPage from "./components/RegisterPage";
+
+// Assets
 import heroImage from "@/assets/images/smk.png";
 import logo from "@/assets/images/logo.png";
-import googleLogo from "@/assets/images/Google.svg";
 
-// Komponen untuk Halaman Login
-function LoginPage({ onToggle }: { onToggle: () => void }) {
-  const [showPassword, setShowPassword] = useState(false);
-  const [rememberMe, setRememberMe] = useState(false);
-
-  return (
-    <div className="space-y-5">
-      <div>
-        <label className="block text-sm font-medium text-black mb-2">Email</label>
-        <input
-          type="email"
-          placeholder="Email"
-          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-neutral-500 focus:border-transparent transition outline-none"
-        />
-      </div>
-
-      <div>
-        <label className="block text-sm font-medium text-black mb-2">Password</label>
-        <div className="relative">
-          <input
-            type={showPassword ? "text" : "password"}
-            placeholder="Password"
-            className="w-full px-4 pr-11 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-neutral-500 focus:border-transparent transition outline-none"
-          />
-          <button
-            type="button"
-            onClick={() => setShowPassword(!showPassword)}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition"
-            aria-label={showPassword ? "Hide password" : "Show password"}
-          >
-            {showPassword ? (
-              <EyeOff className="w-5 h-5" />
-            ) : (
-              <Eye className="w-5 h-5" />
-            )}
-          </button>
-        </div>
-      </div>
-
-      <div className="flex items-center justify-between">
-        <label className="flex items-center cursor-pointer">
-          <input
-            type="checkbox"
-            checked={rememberMe}
-            onChange={(e) => setRememberMe(e.target.checked)}
-            className="w-4 h-4 text-neutral-600 border-gray-300 rounded focus:ring-neutral-500"
-          />
-          <span className="ml-2 text-sm text-gray-700">Remember Me</span>
-        </label>
-        <a href="#" className="text-sm text-gray-500 hover:text-gray-700">Forgot Password?</a>
-      </div>
-
-      <button
-        type="submit"
-        className="w-full py-3 bg-neutral-500 text-white font-semibold rounded-lg hover:bg-neutral-600 transition"
-      >
-        Login
-      </button>
-
-      <div className="relative my-3">
-        <div className="absolute inset-0 flex items-center">
-          <div className="w-full border-t border-gray-200"></div>
-        </div>
-        <div className="relative flex justify-center text-sm">
-          <span className="px-4 bg-white text-gray-400">or</span>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-2 gap-4">
-        <button className="flex items-center px-4 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition">
-          <Image
-            src={googleLogo}
-            alt="Google Logo"
-            width={20}
-            height={20}
-          />
-          <div className="flex-1 flex justify-center">
-            <span className="text-sm font-medium text-black">
-              Google
-            </span>
-          </div>
-        </button>
-
-        <button className="flex items-center px-4 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition">
-          <GraduationCap className="w-5 h-5 text-black" />
-          <div className="flex-1 flex justify-center">
-            <span className="text-sm font-medium text-black">
-              Akun belajar.id
-            </span>
-          </div>
-        </button>
-      </div>
-
-      <div className="text-center mt-6">
-        <span className="text-gray-600">Don&apos;t have any account? </span>
-        <button
-          onClick={onToggle}
-          className="text-neutral-500 hover:text-neutral-900 font-semibold"
-        >
-          Register
-        </button>
-      </div>
-    </div>
-  );
-}
-
-// Komponen untuk Halaman Register
-function RegisterPage({ onToggle }: { onToggle: () => void }) {
-  const [showPassword, setShowPassword] = useState(false);
-
-  return (
-    <div className="space-y-5">
-      <div className="grid grid-cols-2 gap-4">
-        <div>
-          <label className="block text-sm font-medium text-black mb-2">First Name</label>
-          <input
-            type="text"
-            placeholder="First Name"
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-neutral-500 focus:border-transparent transition outline-none"
-          />
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium text-black mb-2">Last Name</label>
-          <input
-            type="text"
-            placeholder="Last Name"
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-neutral-500 focus:border-transparent transition outline-none"
-          />
-        </div>
-      </div>
-
-      <div>
-        <label className="block text-sm font-medium text-black mb-2">Email</label>
-        <input
-          type="email"
-          placeholder="Email"
-          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-neutral-500 focus:border-transparent transition outline-none"
-        />
-      </div>
-
-      <div>
-        <label className="block text-sm font-medium text-black mb-2">Password</label>
-        <div className="relative">
-          <input
-            type={showPassword ? "text" : "password"}
-            placeholder="Password"
-            className="w-full px-4 pr-11 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-neutral-500 focus:border-transparent transition outline-none"
-          />
-          <button
-            type="button"
-            onClick={() => setShowPassword(!showPassword)}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition"
-            aria-label={showPassword ? "Hide password" : "Show password"}
-          >
-            {showPassword ? (
-              <EyeOff className="w-5 h-5" />
-            ) : (
-              <Eye className="w-5 h-5" />
-            )}
-          </button>
-        </div>
-      </div>
-
-      <button
-        type="submit"
-        className="w-full py-3 bg-neutral-500 text-white font-semibold rounded-lg hover:bg-neutral-600 transition"
-      >
-        Register
-      </button>
-
-      <div className="relative my-3">
-        <div className="absolute inset-0 flex items-center">
-          <div className="w-full border-t border-gray-200"></div>
-        </div>
-        <div className="relative flex justify-center text-sm">
-          <span className="px-4 bg-white text-gray-400">or</span>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-2 gap-4">
-        <button className="flex items-center px-4 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition">
-          <Image
-            src={googleLogo}
-            alt="Google Logo"
-            width={20}
-            height={20}
-          />
-          <div className="flex-1 flex justify-center">
-            <span className="text-sm font-medium text-black">
-              Google
-            </span>
-          </div>
-        </button>
-
-        <button className="flex items-center px-4 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition">
-          <GraduationCap className="w-5 h-5 text-black" />
-          <div className="flex-1 flex justify-center">
-            <span className="text-sm font-medium text-black">
-              Akun belajar.id
-            </span>
-          </div>
-        </button>
-      </div>
-
-      <div className="text-center mt-6">
-        <span className="text-gray-600">Already have an account? </span>
-        <button
-          onClick={onToggle}
-          className="text-neutral-500 hover:text-neutral-900 font-semibold"
-        >
-          Login
-        </button>
-      </div>
-    </div>
-  );
-}
-
-export default function Auth() {
-  
+export default function AuthPage() {
   const [isLogin, setIsLogin] = useState(true);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
@@ -234,114 +20,221 @@ export default function Auth() {
   const slides = [
     {
       title: "Selamat Datang Kembali.",
-      subtitle: "Akses ribuan peluang karir eksklusif hanya untuk Alumni SMKN 1 Purwosari."
+      subtitle:
+        "Akses ribuan peluang karir eksklusif hanya untuk Alumni SMKN 1 Purwosari.",
     },
     {
       title: "Temukan Lowongan Terbaru",
-      subtitle: "Dapatkan informasi lowongan kerja dan magang yang sesuai dengan keahlianmu"
+      subtitle:
+        "Dapatkan informasi lowongan kerja dan magang yang sesuai dengan keahlianmu",
     },
     {
       title: "Bergabung dengan Alumni",
-      subtitle: "Networking dengan alumni dan industri untuk masa depan karirmu"
-    }
+      subtitle:
+        "Networking dengan alumni dan industri untuk masa depan karirmu",
+    },
   ];
 
   // Auto slider effect
   useEffect(() => {
     if (isPaused) return;
-
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);
     }, 5000);
-
     return () => clearInterval(interval);
   }, [isPaused, slides.length]);
 
+  // Variabel animasi untuk Text Slider (Stagger effect)
+  const textVariants = {
+      hidden: { opacity: 0, y: 20 },
+      visible: (delay: number) => ({
+       opacity: 1,
+       y: 0,
+       transition: {
+        delay: delay,
+        duration: 0.8,
+            // TAMBAHKAN 'as const' DI SINI
+        ease: [0.2, 0.65, 0.3, 0.9] as const, 
+       },
+      }),
+      exit: { 
+       opacity: 0, 
+       y: -20, 
+       transition: { duration: 0.4 } 
+      },
+     };
+
   return (
-    <div className="flex h-screen w-full bg-white">
-      {/* Image Section - Left Side */}
+    <div className="flex h-screen w-full bg-white overflow-hidden">
+      {/* --- LEFT SIDE: IMAGE SLIDER --- */}
       <div className="hidden lg:flex w-1/2 relative overflow-hidden">
-        {/* Background */}
+        
+        {/* Background Image dengan efek Zoom halus (Ken Burns effect) */}
         <div className="absolute inset-0 z-1">
-          <Image
-            src={heroImage}
-            alt="Hero Background"
-            fill
-            priority
-            quality={100}
-            className="object-cover object-center"
-            sizes="100vw"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/60 to-black/30" />
+          <motion.div
+            initial={{ scale: 1 }}
+            animate={{ scale: 1.1 }}
+            transition={{
+              duration: 20,
+              repeat: Infinity,
+              repeatType: "reverse",
+              ease: "linear",
+            }}
+            className="w-full h-full relative"
+          >
+            <Image
+              src={heroImage}
+              alt="Hero Background"
+              fill
+              priority
+              quality={100}
+              className="object-cover object-center"
+              sizes="50vw"
+            />
+          </motion.div>
+          <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-black/30" />
         </div>
 
-        {/* CONTENT WRAPPER (INI KUNCINYA) */}
-        <div className="relative z-10 flex flex-col justify-between w-full p-10 pb-20 text-white">
-
+        {/* CONTENT WRAPPER */}
+        <div className="relative z-10 flex flex-col justify-between w-full p-12 text-white">
           {/* Logo */}
-          <div className="flex gap-2 items-center">
+          <motion.div 
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="flex gap-3 items-center"
+          >
             <Image
               src={logo}
-              alt="BKK SMKN 1 Purwosari Logo"
-              width={40}
-              height={40}
+              alt="BKK Logo"
+              width={48}
+              height={48}
+              className="drop-shadow-lg"
             />
             <div className="flex flex-col">
-              <div className="body-small_semi-bold">BKK SMK NEGERI 1</div>
-              <div className="body-small_semi-bold">PURWOSARI</div>
+              <span className="font-bold text-sm tracking-wider">BKK SMK NEGERI 1</span>
+              <span className="font-bold text-sm tracking-wider">PURWOSARI</span>
             </div>
-          </div>
+          </motion.div>
 
-          {/* Bottom Content */}
-          <div className="max-w-md">
-            <h1 className="text-5xl font-semibold mb-4 leading-tight">
-              {slides[currentSlide].title}
-            </h1>
-            <p className="text-lg text-gray-300">
-              {slides[currentSlide].subtitle}
-            </p>
+          {/* Slider Text Content */}
+          <div className="max-w-lg min-h-[220px] flex flex-col justify-end">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={currentSlide}
+                className="space-y-4"
+              >
+                {/* Judul */}
+                <motion.h1
+                  custom={0} // Delay 0s
+                  variants={textVariants}
+                  initial="hidden"
+                  animate="visible"
+                  exit="exit"
+                  className="text-5xl font-bold leading-tight drop-shadow-md"
+                >
+                  {slides[currentSlide].title}
+                </motion.h1>
+                
+                {/* Subtitle */}
+                <motion.p
+                  custom={0.2} // Delay 0.2s (muncul setelah judul)
+                  variants={textVariants}
+                  initial="hidden"
+                  animate="visible"
+                  exit="exit"
+                  className="text-lg text-gray-200 font-light leading-relaxed"
+                >
+                  {slides[currentSlide].subtitle}
+                </motion.p>
+              </motion.div>
+            </AnimatePresence>
 
-            {/* Slider Indicators */}
-            <div className="flex space-x-2 mt-8">
+            {/* Indicators */}
+            <div className="flex space-x-3 mt-10">
               {slides.map((_, index) => (
                 <button
                   key={index}
                   onClick={() => setCurrentSlide(index)}
-                  className={`h-1 rounded-full transition-all ${index === currentSlide
-                    ? 'w-8 bg-yellow-400'
-                    : 'w-1 bg-white/40'
-                    }`}
+                  className="relative h-1.5 rounded-full overflow-hidden transition-all duration-300 group"
+                  style={{ width: index === currentSlide ? "48px" : "6px" }}
                   aria-label={`Go to slide ${index + 1}`}
-                />
+                >
+                  <div className={`absolute inset-0 rounded-full ${index === currentSlide ? "bg-white/20" : "bg-white/40 group-hover:bg-white/60"}`} />
+                  
+                  {index === currentSlide && (
+                    <motion.div
+                      layoutId="active-indicator"
+                      className="absolute inset-0 bg-yellow-400 rounded-full"
+                      transition={{ 
+                        type: "spring", 
+                        stiffness: 300, 
+                        damping: 30 
+                      }}
+                    />
+                  )}
+                </button>
               ))}
             </div>
           </div>
-
         </div>
       </div>
 
-
-      {/* Form Section - Right Side */}
-      <div className="w-full lg:w-1/2 flex items-center justify-center p-8 bg-white overflow-y-auto">
-        <div className="w-full max-w-md">
-
-          {/* Header */}
+      {/* --- RIGHT SIDE: FORM --- */}
+      <div className="w-full lg:w-1/2 flex items-center justify-center p-6 bg-white overflow-y-auto">
+        {/* 'layout' prop membuat container menyesuaikan tinggi secara halus */}
+        <motion.div 
+          layout 
+          className="w-full max-w-md bg-white p-2"
+          transition={{ type: "spring", stiffness: 300, damping: 30 }}
+        >
+          {/* Header (Login/Daftar) */}
           <div className="mb-8">
-            <h1 className="text-4xl font-semibold text-gray-900 mb-3">
-              {isLogin ? 'Login' : 'Daftar'}
-            </h1>
-            <p className="text-gray-500">
-              {isLogin ? 'Silahkan pilih jenis akun Anda untuk masuk.' : 'Daftar untuk mengakses lowongan kerja eksklusif'}
-            </p>
+             <AnimatePresence mode="wait">
+                <motion.div
+                  key={isLogin ? "login-text" : "register-text"}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: 20 }}
+                  transition={{ duration: 0.3, ease: "easeInOut" }}
+                >
+                   <h1 className="text-4xl font-bold text-gray-900 mb-2">
+                    {isLogin ? "Login" : "Daftar"}
+                  </h1>
+                  <p className="text-gray-500">
+                    {isLogin
+                      ? "Silahkan pilih jenis akun Anda untuk masuk."
+                      : "Daftar untuk mengakses lowongan kerja eksklusif"}
+                  </p>
+                </motion.div>
+             </AnimatePresence>
           </div>
 
-          {/* Forms */}
-          {isLogin ? (
-            <LoginPage onToggle={() => setIsLogin(false)} />
-          ) : (
-            <RegisterPage onToggle={() => setIsLogin(true)} />
-          )}
-        </div>
+          {/* Form Content */}
+          <AnimatePresence mode="wait" initial={false}>
+            {isLogin ? (
+              <motion.div
+                key="login-form"
+                initial={{ opacity: 0, y: 20, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: -20, scale: 0.95 }}
+                transition={{ duration: 0.4, ease: [0.2, 0.65, 0.3, 0.9] }}
+              >
+                <LoginPage onToggle={() => setIsLogin(false)} />
+              </motion.div>
+            ) : (
+              <motion.div
+                key="register-form"
+                initial={{ opacity: 0, y: 20, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: -20, scale: 0.95 }}
+                transition={{ duration: 0.4, ease: [0.2, 0.65, 0.3, 0.9] }}
+              >
+                <RegisterPage onToggle={() => setIsLogin(true)} />
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </motion.div>
       </div>
     </div>
   );

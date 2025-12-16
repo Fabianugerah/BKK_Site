@@ -1,281 +1,176 @@
-'use client'
+"use client";
 
-import React from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation"; // Import Router untuk redirect
+import Sidebar from "./sidebar/Sidebar";
+import { Bell, Loader2 } from "lucide-react";
+import { createClient } from "@/lib/supabase"; // Import Supabase Client
+import { MenuKey } from "./types/menu";
 
-import { useState } from "react";
-import {
-  LayoutDashboard,
-  User,
-  Settings,
-  ChevronLeft,
-  ChevronRight,
-  LogOut,
-  Home,
-  Users,
-  Package,
-  ShoppingCart,
-  BarChart,
-  Bell,
-  HelpCircle,
-} from "lucide-react";
+// --- EXISTING COMPONENTS ---
+import DashboardComponent from "./components/Dashboard";
+import JobsComponent from "./components/JobsComponent";
+import ApplicantsComponent from "./components/Pelamar"; // Pastikan nama file sesuai
+import ScheduleComponent from "./components/Schedule";
+import ProfileComponent from "./components/Profile";
+import NotificationComponent from "./components/Notification";
+import HelpSupportComponent from "./components/Helpsupport";
+import SettingsComponent from "./components/Settings";
 
-export default function Companymain() {
+export default function CompanyMain() {
+  const router = useRouter();
+  const supabase = createClient();
+
+  // --- STATE ---
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-  const [activeMenu, setActiveMenu] = useState("dashboard");
+  const [activeMenu, setActiveMenu] = useState<MenuKey>("dashboard");
+  const [loading, setLoading] = useState(true); // State loading agar tidak blank putih
+  
+  // State untuk menyimpan data profil perusahaan
+  const [companyProfile, setCompanyProfile] = useState<{ company_name: string; pic_name: string } | null>(null);
 
-  // Menu items
-  const menuItems = [
-    { id: "profile", label: "Profile", icon: User, submenu: false },
-    {
-      id: "dashboard",
-      label: "Dashboard",
-      icon: LayoutDashboard,
-      submenu: false,
-    },
-    {
-      id: "data",
-      label: "Data Master",
-      icon: Package,
-      submenu: true,
-      items: [
-        { id: "users", label: "Users", icon: Users },
-        { id: "products", label: "Products", icon: Package },
-        { id: "orders", label: "Orders", icon: ShoppingCart },
-      ],
-    },
-    { id: "analytics", label: "Analytics", icon: BarChart, submenu: false },
-    { id: "notifications", label: "Notifications", icon: Bell, submenu: false },
-    { id: "help", label: "Help & Support", icon: HelpCircle, submenu: false },
-    { id: "settings", label: "Settings", icon: Settings, submenu: false },
-  ];
+  // --- EFFECT: FETCH DATA DARI SUPABASE ---
+  useEffect(() => {
+    const getCompanyData = async () => {
+      try {
+        // 1. Cek User yang sedang login (Auth)
+        const { data: { user }, error: authError } = await supabase.auth.getUser();
 
-  const [openSubmenus, setOpenSubmenus] = useState<string[]>([]);
+        if (authError || !user) {
+          router.replace("/"); // Jika tidak ada user, tendang ke login
+          return;
+        }
 
-  const toggleSubmenu = (menuId: string) => {
-    if (openSubmenus.includes(menuId)) {
-      setOpenSubmenus(openSubmenus.filter((id) => id !== menuId));
-    } else {
-      setOpenSubmenus([...openSubmenus, menuId]);
+        // 2. Ambil detail perusahaan dari tabel 'companies' berdasarkan ID user
+        const { data, error } = await supabase
+          .from("companies")
+          .select("company_name, pic_name")
+          .eq("id", user.id)
+          .single();
+
+        if (error) {
+          console.error("Gagal mengambil profil perusahaan:", error.message);
+        }
+
+        if (data) {
+          setCompanyProfile(data);
+        }
+      } catch (error) {
+        console.error("Terjadi kesalahan:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    getCompanyData();
+  }, [router, supabase]);
+
+  // --- LOGOUT HANDLER ---
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    router.replace("/");
+  };
+
+  // --- HELPER: INISIAL NAMA PERUSAHAAN ---
+  const getInitials = () => {
+    if (!companyProfile?.company_name) return "CO";
+    return companyProfile.company_name.substring(0, 2).toUpperCase();
+  };
+
+  // --- RENDER CONTENT SWITCHER ---
+  const renderContent = () => {
+    switch (activeMenu) {
+      case "dashboard": return <DashboardComponent />;
+      case "jobs": return <JobsComponent />;
+      case "applicants": return <ApplicantsComponent />;
+      case "schedule": return <ScheduleComponent />;
+      case "profile": return <ProfileComponent />;
+      case "notifications": return <NotificationComponent />;
+      case "help": return <HelpSupportComponent />;
+      case "settings": return <SettingsComponent />;
+      default: return <DashboardComponent />;
     }
   };
+
+  const descriptions: Record<MenuKey, string> = {
+    dashboard: "Ringkasan aktivitas rekrutmen perusahaan Anda",
+    jobs: "Buat dan kelola lowongan pekerjaan",
+    applicants: "Pantau kandidat yang melamar",
+    schedule: "Atur jadwal interview dengan kandidat",
+    notifications: "Pemberitahuan sistem terbaru",
+    profile: "Kelola informasi dan branding perusahaan",
+    settings: "Konfigurasi akun dan preferensi",
+    help: "Pusat bantuan penggunaan sistem",
+  };
+
+  // --- TAMPILAN LOADING ---
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <Loader2 className="w-8 h-8 text-green-600 animate-spin" />
+        <span className="ml-2 text-gray-600 font-medium">Memuat dashboard...</span>
+      </div>
+    );
+  }
 
   return (
     <div className="flex min-h-screen bg-gray-50">
       {/* Sidebar */}
-      <aside
-        className={`${
-          sidebarCollapsed ? "w-16" : "w-64"
-        } bg-white border-r border-gray-200 transition-all duration-300 flex flex-col`}
-      >
-        {/* Logo Section */}
-        <div className="p-4 border-b border-gray-200 flex items-center justify-between">
-          {!sidebarCollapsed && (
-            <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-blue-600 rounded-lg"></div>
-              <span className="font-bold text-lg">Admin</span>
-            </div>
-          )}
-          {sidebarCollapsed && (
-            <div className="w-8 h-8 bg-blue-600 rounded-lg mx-auto"></div>
-          )}
-          <button
-            onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
-            className="p-1.5 rounded-lg hover:bg-gray-100 ml-2"
-          >
-            {sidebarCollapsed ? (
-              <ChevronRight size={20} />
-            ) : (
-              <ChevronLeft size={20} />
-            )}
-          </button>
-        </div>
+      <Sidebar
+        collapsed={sidebarCollapsed}
+        onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
+        activeMenu={activeMenu}
+        onMenuChange={setActiveMenu}
+        onLogout={handleLogout} // Pastikan Sidebar Company menerima prop ini
+      />
 
-        {/* User Profile Section */}
-        <div className="p-4 border-b border-gray-200">
-          {!sidebarCollapsed ? (
-            <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
-                <span className="text-white font-semibold">A</span>
-              </div>
-              <div className="flex-1 min-w-0">
-                <h3 className="font-semibold text-sm truncate">
-                  Administrator
-                </h3>
-                <p className="text-xs text-gray-500 truncate">
-                  admin@example.com
-                </p>
-              </div>
-            </div>
-          ) : (
-            <div className="flex justify-center">
-              <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
-                <span className="text-white font-semibold">A</span>
-              </div>
-            </div>
-          )}
-        </div>
-
-        {/* Navigation Menu */}
-        <nav className="flex-1 p-2 overflow-y-auto">
-          {menuItems.map((item) => (
-            <div key={item.id}>
-              {/* Main Menu Item */}
-              <button
-                onClick={() =>
-                  item.submenu ? toggleSubmenu(item.id) : setActiveMenu(item.id)
-                }
-                className={`flex items-center w-full p-3 rounded-lg mb-1 transition-all ${
-                  activeMenu === item.id && !item.submenu
-                    ? "bg-blue-50 text-blue-600"
-                    : "text-gray-700 hover:bg-gray-50"
-                } ${sidebarCollapsed ? "justify-center" : "justify-between"}`}
-              >
-                <div className="flex items-center">
-                  <item.icon size={20} />
-                  {!sidebarCollapsed && (
-                    <span className="ml-3 text-sm font-medium">
-                      {item.label}
-                    </span>
-                  )}
-                </div>
-                {item.submenu && !sidebarCollapsed && (
-                  <ChevronRight
-                    size={16}
-                    className={`transition-transform ${
-                      openSubmenus.includes(item.id) ? "rotate-90" : ""
-                    }`}
-                  />
-                )}
-              </button>
-
-              {/* Submenu Items */}
-              {item.submenu &&
-                !sidebarCollapsed &&
-                openSubmenus.includes(item.id) && (
-                  <div className="ml-8 space-y-1 mb-1">
-                    {item.items?.map((subItem) => (
-                      <button
-                        key={subItem.id}
-                        onClick={() => setActiveMenu(subItem.id)}
-                        className={`flex items-center w-full p-2 rounded-lg text-sm ${
-                          activeMenu === subItem.id
-                            ? "bg-blue-50 text-blue-600"
-                            : "text-gray-600 hover:bg-gray-50"
-                        }`}
-                      >
-                        <subItem.icon size={16} />
-                        <span className="ml-2">{subItem.label}</span>
-                      </button>
-                    ))}
-                  </div>
-                )}
-            </div>
-          ))}
-        </nav>
-
-        {/* Footer / Logout Section */}
-        <div className="p-4 border-t border-gray-200">
-          <button
-            className={`flex items-center w-full p-3 rounded-lg text-gray-700 hover:bg-gray-50 ${
-              sidebarCollapsed ? "justify-center" : ""
-            }`}
-          >
-            <LogOut size={20} />
-            {!sidebarCollapsed && (
-              <span className="ml-3 text-sm font-medium">Logout</span>
-            )}
-          </button>
-        </div>
-      </aside>
-
-      {/* Main Content Area */}
-      <main className="flex-1 p-6">
-        {/* Header */}
-        <div className="flex items-center justify-between mb-6">
+      {/* Main Content */}
+      <main className="flex-1 p-6 transition-all duration-300 overflow-x-hidden">
+        
+        {/* Header Section */}
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
           <div>
-            <h1 className="text-2xl font-bold text-gray-800">
-              {activeMenu.charAt(0).toUpperCase() + activeMenu.slice(1)}
+            <h1 className="text-2xl font-bold text-gray-800 capitalize">
+              {activeMenu === "jobs" ? "Lowongan Kerja" : 
+               activeMenu === "applicants" ? "Data Pelamar" :
+               activeMenu === "schedule" ? "Jadwal Interview" : 
+               activeMenu === "profile" ? "Profil Perusahaan" : activeMenu}
             </h1>
-            <p className="text-gray-600 mt-1">
-              {activeMenu === "dashboard" && "Overview of your system"}
-              {activeMenu === "profile" && "Manage your profile information"}
-              {activeMenu === "settings" && "Configure system settings"}
-              {activeMenu === "users" && "Manage user accounts"}
-              {activeMenu === "products" && "Manage product catalog"}
-              {activeMenu === "orders" && "View and manage orders"}
-              {activeMenu === "analytics" && "View system analytics"}
-              {activeMenu === "notifications" && "Manage notifications"}
-              {activeMenu === "help" && "Get help and support"}
+            <p className="text-gray-600 mt-1 text-sm">
+              {descriptions[activeMenu]}
             </p>
           </div>
-          <div className="flex items-center space-x-4">
-            <div className="relative">
+
+          <div className="flex items-center gap-4 self-end md:self-auto">
+            {/* Notifikasi */}
+            <button className="relative p-2 hover:bg-white rounded-full transition-colors border border-transparent hover:border-gray-200 hover:shadow-sm">
               <Bell size={20} className="text-gray-600" />
-              <span className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+              <span className="absolute top-1.5 right-2 w-2 h-2 bg-red-500 rounded-full border border-white" />
+            </button>
+            
+            {/* Profil Company Dinamis */}
+            <div className="flex items-start gap-3 pl-2 border-l border-gray-200">
+               <div className="hidden md:block text-right">
+                  <p className="text-sm font-bold text-gray-800 leading-tight">
+                    {/* TAMPILKAN NAMA DARI DATABASE */}
+                    {companyProfile ? companyProfile.company_name : "Perusahaan"}
+                  </p>
+                  <p className="text-[11px] text-gray-500 font-medium">
+                    {companyProfile?.pic_name ? `PIC: ${companyProfile.pic_name}` : "Admin HR"}
+                  </p>
+               </div>
+
+               {/* Avatar Inisial */}
+               <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-blue-700 font-bold text-sm cursor-pointer hover:bg-blue-200 transition ring-2 ring-white shadow-sm">
+                 {getInitials()}
+               </div>
             </div>
-            <div className="w-8 h-8 bg-gray-200 rounded-full"></div>
           </div>
         </div>
 
-        {/* Content Card */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-          <div className="text-center py-12">
-            <div className="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4">
-              {activeMenu === "dashboard" && (
-                <LayoutDashboard size={32} className="text-blue-600" />
-              )}
-              {activeMenu === "profile" && (
-                <User size={32} className="text-blue-600" />
-              )}
-              {activeMenu === "settings" && (
-                <Settings size={32} className="text-blue-600" />
-              )}
-              {activeMenu === "users" && (
-                <Users size={32} className="text-blue-600" />
-              )}
-              {activeMenu === "products" && (
-                <Package size={32} className="text-blue-600" />
-              )}
-              {activeMenu === "orders" && (
-                <ShoppingCart size={32} className="text-blue-600" />
-              )}
-              {activeMenu === "analytics" && (
-                <BarChart size={32} className="text-blue-600" />
-              )}
-              {activeMenu === "notifications" && (
-                <Bell size={32} className="text-blue-600" />
-              )}
-              {activeMenu === "help" && (
-                <HelpCircle size={32} className="text-blue-600" />
-              )}
-            </div>
-            <h2 className="text-xl font-semibold text-gray-800 mb-2">
-              {activeMenu.charAt(0).toUpperCase() + activeMenu.slice(1)} Content
-            </h2>
-            <p className="text-gray-600 max-w-md mx-auto">
-              {activeMenu === "dashboard" &&
-                "This is your main dashboard. Add your widgets, charts, and important metrics here."}
-              {activeMenu === "profile" &&
-                "This is where you can view and edit your profile information."}
-              {activeMenu === "settings" &&
-                "Configure your application settings, preferences, and system options."}
-              {activeMenu === "users" &&
-                "Manage user accounts, roles, and permissions in this section."}
-              {activeMenu === "products" &&
-                "Add, edit, or remove products from your catalog."}
-              {activeMenu === "orders" &&
-                "View and manage customer orders and transactions."}
-              {activeMenu === "analytics" &&
-                "View detailed analytics and reports about your system."}
-              {activeMenu === "notifications" &&
-                "Manage your notification settings and view alerts."}
-              {activeMenu === "help" &&
-                "Find help articles, documentation, and contact support."}
-            </p>
-            <div className="mt-6 text-sm text-gray-500">
-              This area is currently empty. Add your content here.
-            </div>
-          </div>
+        {/* Dynamic Content Area */}
+        <div className="bg-white rounded-xl shadow-sm border border-gray-100 min-h-[calc(100vh-140px)] p-6">
+            {renderContent()}
         </div>
       </main>
     </div>
