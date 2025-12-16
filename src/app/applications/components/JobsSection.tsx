@@ -283,7 +283,7 @@ export default function JobListings() {
                   </div>
                 </div>
 
-                <a href="components/careers-detail">
+                <a href="/careers-detail">
                   <button className="px-4 py-2 bg-black text-white text-sm rounded-full cursor-pointer hover:bg-gray-900 transition-colors">
                     View
                   </button>
