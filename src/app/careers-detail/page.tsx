@@ -8,7 +8,7 @@ export default function CareersDetail() {
       <Navbar />
 
       <main className="bg-white text-gray-800">
-        <div className="max-w-7xl mx-auto pt-32 pb-20">
+        <div className="max-w-[1400px] mx-auto pt-32 pb-20">
           {/* Header */}
           <div className="flex flex-col items-center pb-15 pt-8">
             <div className="text-center max-w-[516px] flex flex-col gap-4">
@@ -29,90 +29,115 @@ export default function CareersDetail() {
             <div className="lg:col-span-2 space-y-10">
               {/* About */}
               <section>
-                <h3 className="text-[40px] font-semibold mb-3">About the role</h3>
+                <h3 className="text-[40px] font-semibold mb-3">
+                  Tentang Posisi Ini
+                </h3>
                 <div className="flex flex-col gap-2">
-                  <p className="text-gray-600 text-lg text-justify leading-relaxed ">
-                  Growvy engineering is a small team that works quickly,
-                  prioritizing getting value to customers and iterating to make
-                  those experiences even better. We offer the most powerful
-                  product analytics tool while still focusing on making the user
-                  experience delightful. The full stack engineers have the
-                  freedom to move about the stack to deliver value to customers
-                  without being blocked by ownership silos.
-                </p>
+                  <p className="text-gray-600 text-lg text-justify leading-relaxed">
+                    Tim engineering Growvy adalah tim kecil yang bekerja dengan
+                    cepat, memprioritaskan pemberian nilai kepada pelanggan dan
+                    terus melakukan iterasi untuk meningkatkan pengalaman
+                    pengguna. Kami menyediakan alat analitik produk yang sangat
+                    мощный sambil tetap berfokus pada pengalaman pengguna yang
+                    menyenangkan. Para full stack engineer memiliki kebebasan
+                    untuk bekerja di berbagai bagian stack demi memberikan nilai
+                    kepada pelanggan tanpa terhambat oleh batasan kepemilikan.
+                  </p>
 
-                <p className="text-gray-600 text-lg text-justify leading-relaxed">
-                  Growvy engineering is a small team that works quickly,
-                  prioritizing getting value to customers and iterating to make
-                  those experiences even better. We offer the most powerful
-                  product analytics tool while still focusing on making the user
-                  experience delightful. The full stack engineers have the
-                  freedom to move about the stack to deliver value to customers
-                  without being blocked by ownership silos.
-                </p>
+                  <p className="text-gray-600 text-lg text-justify leading-relaxed">
+                    Tim engineering Growvy adalah tim kecil yang bekerja dengan
+                    cepat, memprioritaskan pemberian nilai kepada pelanggan dan
+                    terus melakukan iterasi untuk meningkatkan pengalaman
+                    pengguna. Kami menyediakan alat analitik produk yang sangat
+                    kuat sambil tetap berfokus pada pengalaman pengguna yang
+                    menyenangkan. Para full stack engineer memiliki kebebasan
+                    untuk bekerja di berbagai bagian stack demi memberikan nilai
+                    kepada pelanggan tanpa terhambat oleh batasan kepemilikan.
+                  </p>
 
-                <p className="text-gray-600 text-lg text-justify leading-relaxed">
-                  Growvy engineering is a small team that works quickly,
-                  prioritizing getting value to customers and iterating to make
-                  those experiences even better. We offer the most powerful
-                  product analytics tool while still focusing on making the user
-                  experience delightful. The full stack engineers have the
-                  freedom to move about the stack to deliver value to customers
-                  without being blocked by ownership silos.
-                </p>
+                  <p className="text-gray-600 text-lg text-justify leading-relaxed">
+                    Tim engineering Growvy adalah tim kecil yang bekerja dengan
+                    cepat, memprioritaskan pemberian nilai kepada pelanggan dan
+                    terus melakukan iterasi untuk meningkatkan pengalaman
+                    pengguna. Kami menyediakan alat analitik produk yang sangat
+                    kuat sambil tetap berfokus pada pengalaman pengguna yang
+                    menyenangkan. Para full stack engineer memiliki kebebasan
+                    untuk bekerja di berbagai bagian stack demi memberikan nilai
+                    kepada pelanggan tanpa terhambat oleh batasan kepemilikan.
+                  </p>
                 </div>
               </section>
 
               {/* Responsibilities */}
               <section>
-                <h3 className="text-[40px]  font-semibold mb-3">Responsibilities</h3>
+                <h3 className="text-[40px] font-semibold mb-3">
+                  Tanggung Jawab
+                </h3>
                 <ul className="list-disc pl-6 space-y-2 text-gray-600 text-lg">
                   <li>
-                    Design and develop Webflow websites with best practices.
+                    Merancang dan mengembangkan website Webflow sesuai dengan
+                    praktik terbaik.
                   </li>
-                  <li>Collaborate with product managers and designers.</li>
-                  <li>Optimize performance and accessibility.</li>
-                  <li>Maintain clean, scalable components.</li>
+                  <li>
+                    Bekerja sama dengan product manager dan desainer.
+                  </li>
+                  <li>
+                    Mengoptimalkan performa dan aksesibilitas website.
+                  </li>
+                  <li>
+                    Menjaga komponen tetap bersih, rapi, dan mudah dikembangkan.
+                  </li>
                 </ul>
               </section>
 
               {/* Requirements */}
               <section>
                 <h3 className="text-[40px] font-semibold mb-3">
-                  What we're looking for
+                  Kualifikasi yang Kami Cari
                 </h3>
                 <ul className="list-disc pl-6 space-y-2 text-gray-600 text-lg">
                   <li>
-                    5+ years experience in Webflow or frontend development.
+                    Pengalaman minimal 5 tahun menggunakan Webflow atau
+                    pengembangan frontend.
                   </li>
-                  <li>Strong understanding of responsive design.</li>
-                  <li>Experience working with modern UI systems.</li>
-                  <li>Good communication and teamwork skills.</li>
+                  <li>
+                    Memahami konsep desain responsif dengan baik.
+                  </li>
+                  <li>
+                    Berpengalaman menggunakan sistem UI modern.
+                  </li>
+                  <li>
+                    Memiliki kemampuan komunikasi dan kerja tim yang baik.
+                  </li>
                 </ul>
               </section>
 
               {/* Compensation */}
               <section>
-                <h3 className="text-[40px] font-semibold mb-3">Compensation</h3>
+                <h3 className="text-[40px] font-semibold mb-3">
+                  Kompensasi
+                </h3>
                 <p className="text-gray-600 text-lg">
-                  Salary range: <strong>$120,000 – $160,000 USD</strong>{" "}
-                  depending on experience and location.
+                  Kisaran gaji: <strong>$120,000 – $160,000 USD</strong>{" "}
+                  tergantung pengalaman dan lokasi kerja.
                 </p>
               </section>
             </div>
 
             {/* Right Sidebar */}
             <aside className="border rounded-xl p-6 h-fit lg:sticky lg:top-24">
-              <h3 className="font-semibold text-lg mb-4">Perks and benefits</h3>
+              <h3 className="font-semibold text-lg mb-4">
+                Fasilitas dan Benefit
+              </h3>
               <ul className="space-y-3 text-sm text-gray-600">
-                <li>✔ Health Insurance</li>
-                <li>✔ Paid Time Off</li>
-                <li>✔ Remote Friendly</li>
-                <li>✔ Learning Budget</li>
-                <li>✔ Team Retreats</li>
+                <li>✔ Asuransi Kesehatan</li>
+                <li>✔ Cuti Berbayar</li>
+                <li>✔ Mendukung Kerja Remote</li>
+                <li>✔ Anggaran Pengembangan Diri</li>
+                <li>✔ Retret Tim</li>
               </ul>
               <button className="mt-6 w-full bg-yellow-400 hover:bg-yellow-500 text-black font-semibold py-3 rounded-lg transition">
-                Apply Now
+                Lamar Sekarang
               </button>
             </aside>
           </div>
