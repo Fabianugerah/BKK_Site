@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Search, MapPin, Briefcase, DollarSign, Bookmark, Loader2, Building2, CheckCircle } from "lucide-react";
-import { createClient, User } from "@supabase/supabase-js";
+import { MapPin, Briefcase, DollarSign, Bookmark, Loader2, Building2, CheckCircle } from "lucide-react";
+import { createClient } from "@supabase/supabase-js";
+import type { User } from "@supabase/supabase-js";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
