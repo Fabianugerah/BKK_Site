@@ -1,6 +1,6 @@
 "use client";
-import Navbar from "../../applications/components/Navbar";
-import FooterSection from "../../applications/components/Footer";
+import Navbar from "../applications/components/Navbar";
+import FooterSection from "../applications/components/Footer";
 
 export default function CareersDetail() {
   return (
@@ -79,7 +79,7 @@ export default function CareersDetail() {
               {/* Requirements */}
               <section>
                 <h3 className="text-[40px] font-semibold mb-3">
-                  {`What we're looking for`}
+                  What we're looking for
                 </h3>
                 <ul className="list-disc pl-6 space-y-2 text-gray-600 text-lg">
                   <li>

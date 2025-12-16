@@ -2,12 +2,11 @@
 
 import { useState, useEffect } from "react";
 import { 
-  Calendar, Video, User, Briefcase,  
+  Calendar, Video, User, Briefcase, 
   Edit, ExternalLink, AlertCircle, Loader2 
 } from "lucide-react";
 import { createClient } from "@/lib/supabase";
 
-// Tipe Data
 interface Interview {
   id: number;
   status: string;
@@ -30,7 +29,6 @@ export default function ScheduleComponent() {
   const [loading, setLoading] = useState(true);
   const [interviews, setInterviews] = useState<Interview[]>([]);
   
-  // State Modal
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedInterview, setSelectedInterview] = useState<Interview | null>(null);
   const [formData, setFormData] = useState({
@@ -41,19 +39,16 @@ export default function ScheduleComponent() {
   });
   const [submitting, setSubmitting] = useState(false);
 
-  // --- 1. FETCH SCHEDULES ---
   const fetchSchedules = async () => {
     setLoading(true);
     try {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return;
 
-      // Ambil ID Jobs milik company ini dulu
       const { data: jobs } = await supabase.from("jobs").select("id").eq("company_id", user.id);
       if (!jobs) return;
       const jobIds = jobs.map(j => j.id);
 
-      // Ambil Aplikasi dengan status 'Interview'
       const { data, error } = await supabase
         .from("applications")
         .select(`
@@ -62,8 +57,8 @@ export default function ScheduleComponent() {
           jobs ( title )
         `)
         .in("job_id", jobIds)
-        .eq("status", "Interview") // Hanya ambil yang statusnya Interview
-        .order("interview_date", { ascending: true }); // Urutkan berdasarkan tanggal terdekat
+        .eq("status", "Interview")
+        .order("interview_date", { ascending: true });
 
       if (error) throw error;
       setInterviews(data as unknown as Interview[]);
@@ -76,18 +71,15 @@ export default function ScheduleComponent() {
 
   useEffect(() => {
     fetchSchedules();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // --- 2. HANDLE OPEN MODAL ---
   const openModal = (interview: Interview) => {
     setSelectedInterview(interview);
     
-    // Parse tanggal yang ada (jika ada) untuk mengisi form
     if (interview.interview_date) {
       const dateObj = new Date(interview.interview_date);
-      // Format YYYY-MM-DD
       const dateStr = dateObj.toISOString().split('T')[0];
-      // Format HH:MM
       const timeStr = dateObj.toTimeString().slice(0, 5);
       
       setFormData({
@@ -103,14 +95,12 @@ export default function ScheduleComponent() {
     setIsModalOpen(true);
   };
 
-  // --- 3. SUBMIT SCHEDULE ---
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!selectedInterview) return;
     setSubmitting(true);
 
     try {
-      // Gabungkan Date & Time menjadi ISO String
       const dateTimeString = new Date(`${formData.date}T${formData.time}:00`).toISOString();
 
       const { error } = await supabase
@@ -126,37 +116,27 @@ export default function ScheduleComponent() {
 
       alert("Jadwal berhasil disimpan!");
       setIsModalOpen(false);
-      fetchSchedules(); // Refresh data
+      fetchSchedules();
 
-    } catch (error: Error | unknown) {
-      const errorMessage = error instanceof Error ? error.message : "Unknown error";
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : "Terjadi kesalahan";
       alert("Gagal menyimpan: " + errorMessage);
     } finally {
       setSubmitting(false);
     }
   };
 
-  // --- HELPER: GROUP DATA ---
   const unscheduled = interviews.filter(i => !i.interview_date);
   const scheduled = interviews.filter(i => i.interview_date);
   
-  // Pisahkan yang sudah lewat dan yang akan datang
   const now = new Date();
   const upcoming = scheduled.filter(i => new Date(i.interview_date!) >= now);
   const past = scheduled.filter(i => new Date(i.interview_date!) < now);
 
-  // Formatter Tanggal Cantik
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return new Intl.DateTimeFormat("id-ID", {
-      weekday: "long", day: "numeric", month: "long", year: "numeric", hour: "2-digit", minute: "2-digit"
-    }).format(date);
-  };
-
   return (
     <div className="space-y-8">
       
-      {/* --- SECTION 1: PERLU DIJADWALKAN (UNSCHEDULED) --- */}
+      {/* UNSCHEDULED */}
       {unscheduled.length > 0 && (
         <div className="bg-amber-50 border border-amber-200 rounded-xl p-6">
           <h3 className="text-lg font-bold text-amber-800 flex items-center gap-2 mb-4">
@@ -187,7 +167,7 @@ export default function ScheduleComponent() {
         </div>
       )}
 
-      {/* --- SECTION 2: AKAN DATANG (UPCOMING) --- */}
+      {/* UPCOMING */}
       <div>
         <h3 className="text-xl font-bold text-gray-800 flex items-center gap-2 mb-4">
           <Calendar className="text-blue-600" /> Jadwal Akan Datang
@@ -202,7 +182,6 @@ export default function ScheduleComponent() {
             {upcoming.map((item) => (
               <div key={item.id} className="bg-white border border-gray-100 rounded-xl p-5 shadow-sm hover:shadow-md transition flex flex-col md:flex-row gap-5 items-start md:items-center">
                 
-                {/* Waktu (Kiri) */}
                 <div className="flex-shrink-0 w-full md:w-48 bg-blue-50 rounded-lg p-3 text-center border border-blue-100">
                   <p className="text-blue-800 font-bold text-lg">
                     {new Date(item.interview_date!).toLocaleTimeString("id-ID", {hour: '2-digit', minute:'2-digit'})}
@@ -212,7 +191,6 @@ export default function ScheduleComponent() {
                   </p>
                 </div>
 
-                {/* Detail Kandidat (Tengah) */}
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-1">
                     <User size={16} className="text-gray-400" />
@@ -232,7 +210,6 @@ export default function ScheduleComponent() {
                   )}
                 </div>
 
-                {/* Actions (Kanan) */}
                 <button 
                   onClick={() => openModal(item)}
                   className="px-4 py-2 border border-gray-200 text-gray-600 text-sm font-medium rounded-lg hover:bg-gray-50 flex items-center gap-2 transition"
@@ -246,7 +223,7 @@ export default function ScheduleComponent() {
         )}
       </div>
 
-      {/* --- SECTION 3: RIWAYAT (PAST) --- */}
+      {/* PAST */}
       {past.length > 0 && (
         <div className="pt-8 border-t border-gray-200">
           <h3 className="text-lg font-bold text-gray-500 mb-4">Riwayat Interview</h3>
@@ -266,7 +243,7 @@ export default function ScheduleComponent() {
         </div>
       )}
 
-      {/* --- MODAL FORM --- */}
+      {/* MODAL */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
           <div className="bg-white rounded-xl shadow-xl w-full max-w-md overflow-hidden">

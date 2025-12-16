@@ -65,8 +65,8 @@ export default function LoginPage({ onToggle }: LoginPageProps) {
       }
 
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : "Terjadi kesalahan yang tidak diketahui";
-      alert(errorMessage); // Tampilkan error sederhana
+      const errorMessage = error instanceof Error ? error.message : "Terjadi kesalahan";
+      alert(errorMessage);
     } finally {
       setLoading(false);
     }

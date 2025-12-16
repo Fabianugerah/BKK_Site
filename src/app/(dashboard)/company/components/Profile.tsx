@@ -9,7 +9,6 @@ export default function ProfileComponent() {
   const [loading, setLoading] = useState(true);
   const [updating, setUpdating] = useState(false);
   
-  // State Data Profile
   const [email, setEmail] = useState("");
   const [formData, setFormData] = useState({
     company_name: "",
@@ -21,7 +20,6 @@ export default function ProfileComponent() {
     logo_url: "",
   });
 
-  // --- 1. FETCH DATA PROFILE ---
   useEffect(() => {
     const getProfile = async () => {
       try {
@@ -30,14 +28,13 @@ export default function ProfileComponent() {
 
         setEmail(user.email || "");
 
-        // Ambil data detail company
         const { data, error } = await supabase
           .from("companies")
           .select("*")
           .eq("id", user.id)
           .single();
 
-        if (error && error.code !== 'PGRST116') throw error; // Ignore error jika data belum ada (baru register)
+        if (error && error.code !== 'PGRST116') throw error;
 
         if (data) {
           setFormData({
@@ -58,9 +55,9 @@ export default function ProfileComponent() {
     };
 
     getProfile();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // --- 2. HANDLE SAVE ---
   const handleSave = async () => {
     setUpdating(true);
     try {
@@ -82,19 +79,18 @@ export default function ProfileComponent() {
 
       if (error) throw error;
       alert("Profil berhasil diperbarui!");
-    } catch (error: unknown) {
-      alert("Gagal menyimpan: " + (error instanceof Error ? error.message : "Unknown error"));
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : "Terjadi kesalahan";
+      alert("Gagal menyimpan: " + errorMessage);
     } finally {
       setUpdating(false);
     }
   };
 
-  // --- 3. HANDLE INPUT CHANGE ---
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // Helper Initials
   const getInitials = () => {
     return formData.company_name ? formData.company_name.substring(0, 2).toUpperCase() : "CO";
   };
@@ -107,12 +103,9 @@ export default function ProfileComponent() {
     <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
       <div className="max-w-4xl mx-auto">
         
-        {/* --- HEADER SECTION --- */}
         <div className="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-6 mb-8 pb-8 border-b border-gray-100">
-          {/* Avatar / Logo Placeholder */}
           <div className="w-24 h-24 bg-blue-50 rounded-full flex items-center justify-center border-4 border-white shadow-sm overflow-hidden relative">
             {formData.logo_url ? (
-               // eslint-disable-next-line @next/next/no-img-element
                <img src={formData.logo_url} alt="Logo" className="w-full h-full object-cover" />
             ) : (
                <span className="text-blue-600 font-bold text-3xl">{getInitials()}</span>
@@ -130,10 +123,8 @@ export default function ProfileComponent() {
           </div>
         </div>
 
-        {/* --- FORM SECTION --- */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           
-          {/* Nama Perusahaan */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">Nama Perusahaan</label>
             <div className="relative">
@@ -148,7 +139,6 @@ export default function ProfileComponent() {
             </div>
           </div>
 
-          {/* Nama PIC */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">Nama PIC (HRD)</label>
             <div className="relative">
@@ -163,7 +153,6 @@ export default function ProfileComponent() {
             </div>
           </div>
 
-          {/* Industri */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">Bidang Industri</label>
             <input
@@ -176,7 +165,6 @@ export default function ProfileComponent() {
             />
           </div>
 
-          {/* Website */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">Website</label>
             <div className="relative">
@@ -192,7 +180,6 @@ export default function ProfileComponent() {
             </div>
           </div>
           
-           {/* Logo URL */}
            <div className="md:col-span-2">
             <label className="block text-sm font-medium text-gray-700 mb-2">Logo URL (Link Gambar)</label>
             <input
@@ -206,7 +193,6 @@ export default function ProfileComponent() {
             <p className="text-xs text-gray-400 mt-1">Masukkan link gambar langsung (opsional).</p>
           </div>
 
-          {/* Alamat */}
           <div className="md:col-span-2">
             <label className="block text-sm font-medium text-gray-700 mb-2">Alamat Lengkap</label>
             <div className="relative">
@@ -221,7 +207,6 @@ export default function ProfileComponent() {
             </div>
           </div>
 
-          {/* Deskripsi */}
           <div className="md:col-span-2">
             <label className="block text-sm font-medium text-gray-700 mb-2">Deskripsi Perusahaan</label>
             <div className="relative">
@@ -239,10 +224,9 @@ export default function ProfileComponent() {
 
         </div>
 
-        {/* --- ACTION BUTTONS --- */}
         <div className="mt-8 flex justify-end space-x-3 pt-6 border-t border-gray-100">
           <button 
-            onClick={() => window.location.reload()} // Reset form simple
+            onClick={() => window.location.reload()}
             disabled={updating}
             className="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors disabled:opacity-50"
           >

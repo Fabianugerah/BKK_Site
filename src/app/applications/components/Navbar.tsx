@@ -15,6 +15,7 @@ const Navbar: React.FC = (
 
   const getActiveMenu = () => {
     if (pathname === "/") return "Home";
+
     if (pathname === "/about") return "Tentang Kami";
     if (pathname === "/contact") return "Contact";
     if (pathname === "/lowongan") return "Lowongan Kerja";

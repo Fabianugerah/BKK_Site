@@ -14,45 +14,51 @@ export default function AboutPage() {
     const isStatsInView = useInView(statsRef, { once: true, amount: 0.3 });
 
     const stats = [
-        { value: '1.500+', label: 'ALUMNI TERSALURKAN', color: 'text-black' },
-        { value: '120+', label: 'MITRA INDUSTRI', color: 'text-black' },
-        { value: '15+', label: 'TAHUN PENGALAMAN', color: 'text-black' },
-        { value: '95%', label: 'TINGKAT PENEMPATAN', color: 'text-black' },
+        { value: '15k', label: 'GLOBAL DOWNLOADS', color: 'text-black' },
+        { value: '$20M', label: 'RETURN INVESTMENT', color: 'text-black' },
+        { value: '200+', label: '5 STAR REVIEWS', color: 'text-black' },
+        { value: '500+', label: 'PROJECTS COMPLETED', color: 'text-black' },
     ];
 
     const team = [
         {
-            name: 'Kepala BKK',
-            role: 'Koordinator Penyaluran Kerja',
+            name: 'Annette Black',
+            role: 'Web Designer',
+            image: null,
         },
         {
-            name: 'Staf Industri',
-            role: 'Hubungan Dunia Usaha & Industri',
+            name: 'Courtney Henry',
+            role: 'Web Designer',
+            image: null,
         },
         {
-            name: 'Staf Alumni',
-            role: 'Pendampingan & Konseling Karier',
+            name: 'Jacob Jones',
+            role: 'UI/UX Designer',
+            image: null,
         },
     ];
 
     const testimonials = [
         {
             rating: 5,
-            text: 'BKK sangat membantu saya mendapatkan pekerjaan sesuai jurusan. Prosesnya jelas dan didampingi sampai diterima kerja.',
-            author: 'Alumni SMK',
-            role: 'Karyawan Industri Manufaktur',
+            text: 'We trust several tools before, but nothing matches this one. The collaboration features are seamless, and, this members keep up on track.',
+            author: 'Mark Morris',
+            role: 'CEO, Fitwan',
+            avatar: null,
         },
         {
             rating: 5,
-            text: 'Informasi lowongan selalu valid dan berasal dari perusahaan resmi. Sangat direkomendasikan untuk lulusan SMK.',
-            author: 'Alumni BKK',
-            role: 'Teknisi Otomotif',
+            text: 'We tried several tools before, but nothing matched this one. The collaboration features are seamless, and the reminders keep us on track.',
+            author: 'Sarah Johnson',
+            role: 'Manager, TechCorp',
+            avatar: null,
         },
         {
             rating: 5,
-            text: 'Melalui BKK, saya bisa langsung terhubung dengan perusahaan mitra tanpa bingung mencari lowongan.',
-            author: 'Peserta Rekrutmen',
-            role: 'Operator Produksi',
+            text: 'We had several tools before. It is nothing matched this one. The collaboration features are seamless, and the reminders keep us on track.',
+            author: 'Kim Wilson',
+            role: 'Designer, Creative',
+            avatar: null,
         },
     ];
 
@@ -67,19 +73,16 @@ export default function AboutPage() {
                         {/* Left Content */}
                         <div>
                             <h1 className="text-5xl md:text-6xl font-semibold text-black mb-6 leading-tight">
-                                Tentang <span className="text-neutral-500">BKK</span>
+                                Fuel Your <span className="text-neutral-500">Business</span>
                                 <br />
-                                Bursa Kerja Khusus
+                                with Advanced Tech
                             </h1>
                             <p className="text-lg text-gray-600 mb-8 max-w-lg leading-relaxed">
-                                Bursa Kerja Khusus (BKK) merupakan unit layanan sekolah
-                                yang bertugas menjembatani lulusan dengan dunia usaha
-                                dan dunia industri melalui kerja sama yang profesional
-                                dan berkelanjutan.
+                                Leverage the power of advanced technology to streamline operations and drive growth. Bagi siswa dengan innovative solutions built for the future.
                             </p>
                             <div className="flex items-center gap-4">
-                                <button className="px-8 py-4 bg-neutral-500 hover:bg-neutral-600 text-black rounded-2xl transition-all font-medium">
-                                    Lihat Lowongan
+                                <button className="px-8 py-4 bg-neutral-500 hover:bg-neutral-600 text-white rounded-full transition-all font-medium">
+                                    Explore More
                                 </button>
                                 <div className="flex items-center gap-2">
                                     <div className="flex -space-x-2">
@@ -99,7 +102,7 @@ export default function AboutPage() {
                             <div className="bg-gray-100 rounded-3xl overflow-hidden aspect-[4/3] relative">
                                 <Image
                                     src={heroImage}
-                                    alt="BKK SMK"
+                                    alt="Hero"
                                     fill
                                     className="object-cover"
                                 />
@@ -123,8 +126,8 @@ export default function AboutPage() {
                         {/* Left - Title */}
                         <div>
                             <h2 className="text-5xl font-medium text-black leading-tight">
-                                Menyiapkan lulusan{' '}
-                                <span className="text-gray-400">siap kerja & berdaya saing</span>
+                                Empowering your success{' '}
+                                <span className="text-gray-400">with our solutions</span>
                             </h2>
                         </div>
 
@@ -151,12 +154,15 @@ export default function AboutPage() {
                         {/* Center - Description (Full Width) */}
                         <div className="md:col-span-2 text-center max-w-4xl mx-auto">
                             <p className="text-xl text-gray-600 leading-relaxed">
-                                Melalui pendampingan karier, rekrutmen resmi,
-                                dan kerja sama industri, BKK berkomitmen
-                                membantu lulusan mendapatkan pekerjaan yang
-                                sesuai dengan kompetensi dan kebutuhan industri.
+                                Struggling to stay organized, our users found the perfect solution
+                                with TaskZen. By simplifying task management and boosting team
+                                collaboration, they&apos;ve achieved more in less time.{' '}
+                                <span className="text-gray-400">
+                                    Join thousands who&apos;ve transformed chaos into productivity
+                                </span>
                             </p>
                         </div>
+
                     </div>
                 </div>
             </section>
@@ -167,11 +173,10 @@ export default function AboutPage() {
                 <div className="container mx-auto">
                     <div className="text-center mb-12">
                         <h2 className="text-5xl font-semibold text-white mb-6">
-                            Peran BKK dalam <span className="text-gray-400">Dunia Kerja</span>
+                            Discover our <span className="text-gray-400">TaskZen</span>
                         </h2>
                         <p className="text-lg text-gray-500 max-w-2xl mx-auto">
-                            BKK menjadi penghubung antara sekolah, alumni,
-                            dan perusahaan untuk menciptakan lulusan yang siap kerja.
+                            Unleash the full potential of task management with TaskZen. Organize collaborate, and achieve more with ease.
                         </p>
                     </div>
 
@@ -199,11 +204,10 @@ export default function AboutPage() {
                 <div className="container mx-auto">
                     <div className="mb-12">
                         <h2 className="text-5xl font-semibold text-black mb-4">
-                            Tim BKK <span className="text-gray-400">SMKN 1 Purwosari</span>
+                            The Faces of <span className="text-gray-400">Innovation</span>
                         </h2>
                         <p className="text-lg text-gray-600 max-w-2xl">
-                            Tim BKK terdiri dari tenaga profesional yang berpengalaman
-                            dalam penyaluran kerja dan pendampingan alumni.
+                            Unleash the talent of dedicated technology to streamline solutions in real-time driven. Stay aligned with innovative solutions led by the team.
                         </p>
                     </div>
 
@@ -239,7 +243,7 @@ export default function AboutPage() {
                 <div className="container mx-auto">
                     <div className="text-center mb-12">
                         <h2 className="text-4xl font-semibold text-black mb-4">
-                            Testimoni <span className="text-gray-400">Alumni</span>
+                            Loved by <span className="text-gray-400">teams</span> around the world
                         </h2>
                         <div className="flex items-center justify-center gap-2">
                             <div className="flex -space-x-2">

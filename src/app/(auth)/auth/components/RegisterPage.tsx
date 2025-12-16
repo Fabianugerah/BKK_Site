@@ -133,8 +133,8 @@ export default function RegisterPage({ onToggle }: RegisterPageProps) {
         alert("Registrasi Berhasil!");
         router.push("/company");
       }
-    } catch (error: unknown) {
-      const errorMessage = error instanceof Error ? error.message : "Terjadi kesalahan yang tidak diketahui";
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : "Terjadi kesalahan";
       alert("Error: " + errorMessage);
     } finally {
       setLoading(false);

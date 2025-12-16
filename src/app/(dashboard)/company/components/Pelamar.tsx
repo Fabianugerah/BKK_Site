@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { 
-  Search, Filter, Download, User, Briefcase, Calendar, 
-  CheckCircle, XCircle, Clock, MessageSquare, FileText, Loader2, ChevronDown 
+  Search, User, Briefcase, Calendar, 
+  CheckCircle, XCircle, Clock, MessageSquare, FileText, Loader2
 } from "lucide-react";
 import { createClient } from "@/lib/supabase";
 
@@ -18,7 +18,7 @@ interface Applicant {
     last_name: string;
     avatar_url: string | null;
     headline: string | null;
-    email: string; // Ambil email dari join profile nanti jika perlu, skrg dari jobseekers table belum ada email (email di tabel profiles)
+    email: string;
     resume_url: string | null;
   };
   jobs: {
@@ -40,12 +40,6 @@ export default function ApplicantsComponent() {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return;
 
-      // Query: Ambil aplikasi yang job-nya milik company yang sedang login
-      // Kita perlu join: applications -> jobs -> filter by company_id
-      // Karena keterbatasan syntax nested filter di client side standard, 
-      // cara termudah adalah ambil jobs milik company dulu, lalu ambil applications berdasarkan job_id tersebut.
-      
-      // A. Ambil ID Jobs milik company ini
       const { data: jobsData } = await supabase
         .from("jobs")
         .select("id")
@@ -59,7 +53,6 @@ export default function ApplicantsComponent() {
 
       const jobIds = jobsData.map(j => j.id);
 
-      // B. Ambil Applications berdasarkan Job IDs
       const { data, error } = await supabase
         .from("applications")
         .select(`
@@ -93,6 +86,7 @@ export default function ApplicantsComponent() {
 
   useEffect(() => {
     fetchApplicants();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // --- 2. UPDATE STATUS ---
@@ -105,9 +99,8 @@ export default function ApplicantsComponent() {
 
       if (error) throw error;
 
-      // Update state lokal
       setApplicants(applicants.map(app => 
-        app.id === id ? { ...app, status: newStatus as "Pending" | "Review" | "Interview" | "Accepted" | "Rejected" } : app
+        app.id === id ? { ...app, status: newStatus as Applicant['status'] } : app
       ));
     } catch (error) {
       alert("Gagal mengupdate status.");
@@ -191,7 +184,6 @@ export default function ApplicantsComponent() {
               <div className="flex gap-4 flex-1">
                 {/* Avatar */}
                 <div className="w-12 h-12 md:w-14 md:h-14 rounded-full bg-gray-100 flex-shrink-0 overflow-hidden relative border border-gray-200">
-                   {/* Placeholder avatar jika null */}
                    <div className="w-full h-full flex items-center justify-center text-gray-400 font-bold bg-gray-50">
                       {app.jobseekers.first_name.charAt(0)}
                    </div>
@@ -213,7 +205,7 @@ export default function ApplicantsComponent() {
                   </p>
                   
                   {app.jobseekers.headline && (
-                    <p className="text-xs text-gray-500 mb-2 italic">&ldquo;{app.jobseekers.headline}&rdquo;</p>
+                    <p className="text-xs text-gray-500 mb-2 italic">&quot;{app.jobseekers.headline}&quot;</p>
                   )}
 
                   <div className="flex items-center gap-3 text-xs text-gray-400">
@@ -246,21 +238,18 @@ export default function ApplicantsComponent() {
 
                 {/* Dropdown / Quick Actions Status */}
                 <div className="flex gap-1 w-full md:w-auto">
-                   {/* Jika Pending -> Tombol Review */}
                    {app.status === "Pending" && (
                      <button onClick={() => updateStatus(app.id, "Review")} className="flex-1 flex items-center justify-center gap-1 px-3 py-2 bg-amber-50 text-amber-700 text-xs font-bold rounded-lg hover:bg-amber-100 transition">
                        <Clock size={14} /> Review
                      </button>
                    )}
                    
-                   {/* Jika Review -> Tombol Interview */}
                    {app.status === "Review" && (
                      <button onClick={() => updateStatus(app.id, "Interview")} className="flex-1 flex items-center justify-center gap-1 px-3 py-2 bg-blue-50 text-blue-700 text-xs font-bold rounded-lg hover:bg-blue-100 transition">
                        <MessageSquare size={14} /> Interview
                      </button>
                    )}
 
-                   {/* Jika Interview -> Terima / Tolak */}
                    {app.status === "Interview" && (
                      <>
                        <button onClick={() => updateStatus(app.id, "Accepted")} className="flex-1 flex items-center justify-center gap-1 px-3 py-2 bg-emerald-50 text-emerald-700 text-xs font-bold rounded-lg hover:bg-emerald-100 transition" title="Terima">
@@ -272,7 +261,6 @@ export default function ApplicantsComponent() {
                      </>
                    )}
 
-                   {/* Status Final */}
                    {app.status === "Accepted" && <span className="text-xs font-bold text-emerald-600 py-2">Diterima</span>}
                    {app.status === "Rejected" && <span className="text-xs font-bold text-red-600 py-2">Ditolak</span>}
                 </div>

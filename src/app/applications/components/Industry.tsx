@@ -2,7 +2,6 @@
 
 import React, { useRef } from 'react';
 import Image from 'next/image';
-import { StaticImageData } from 'next/image';
 import {
   motion,
   useMotionValue,
@@ -37,7 +36,7 @@ import unileverLogo from '@/assets/images/Unilever.svg';
 
 type Company = {
   name: string;
-  logo: StaticImageData;
+  logo: any;
 };
 
 /* ================= COMPANY LOGO ================= */

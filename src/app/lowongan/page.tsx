@@ -154,7 +154,7 @@ export default function JobListingsPage() {
             {/* Transparency */}
             <div className="text-center">
               <div className="w-16 h-16 bg-purple-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                <div className="w-8 h-8 bg-neutral-500 rounded-full"></div>
+                <div className="w-8 h-8 bg-purple-500 rounded-full"></div>
               </div>
               <h3 className="text-xl font-semibold text-black mb-2">Transparency</h3>
               <p className="text-gray-600">
@@ -165,7 +165,7 @@ export default function JobListingsPage() {
             {/* Remote Work */}
             <div className="text-center">
               <div className="w-16 h-16 bg-purple-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                <div className="w-8 h-8 bg-neutral-500 rounded-lg"></div>
+                <div className="w-8 h-8 bg-purple-500 rounded-lg"></div>
               </div>
               <h3 className="text-xl font-semibold text-black mb-2">Remote work</h3>
               <p className="text-gray-600">
@@ -208,7 +208,7 @@ export default function JobListingsPage() {
                   placeholder="Search position..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:border-transparent"
+                  className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                 />
               </div>
             </div>
@@ -217,7 +217,7 @@ export default function JobListingsPage() {
             <select
               value={selectedLocation}
               onChange={(e) => setSelectedLocation(e.target.value)}
-              className="px-6 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-neutral-500 bg-white"
+              className="px-6 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 bg-white"
             >
               <option value="all">All Locations</option>
               <option value="Jakarta">Jakarta</option>
@@ -229,7 +229,7 @@ export default function JobListingsPage() {
             <select
               value={selectedType}
               onChange={(e) => setSelectedType(e.target.value)}
-              className="px-6 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-neutral-500 bg-white"
+              className="px-6 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 bg-white"
             >
               <option value="all">All Types</option>
               <option value="Full-time">Full-time</option>

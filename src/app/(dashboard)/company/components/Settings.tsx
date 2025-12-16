@@ -1,32 +1,26 @@
 "use client";
 
 import { useState } from "react";
-import { Bell, Lock, Shield, ChevronRight, Loader2, X, CheckCircle } from "lucide-react";
+import { Bell, Lock, Shield, ChevronRight, Loader2, X } from "lucide-react";
 import { createClient } from "@/lib/supabase";
 
 export default function SettingsComponent() {
   const supabase = createClient();
   
-  // --- STATE ---
   const [loading, setLoading] = useState(false);
   
-  // State Notifikasi (Dummy State - karena belum ada kolom di DB)
   const [notifSettings, setNotifSettings] = useState({
     email: true,
     push: false,
   });
 
-  // State Modal Password
   const [isPassModalOpen, setIsPassModalOpen] = useState(false);
   const [passForm, setPassForm] = useState({ newPassword: "", confirmPassword: "" });
 
-  // --- HANDLER: TOGGLE NOTIFIKASI ---
   const handleToggle = (key: "email" | "push") => {
     setNotifSettings((prev) => ({ ...prev, [key]: !prev[key] }));
-    // Di sini nanti bisa ditambahkan logic update ke Supabase jika kolomnya sudah dibuat
   };
 
-  // --- HANDLER: GANTI PASSWORD ---
   const handleChangePassword = async (e: React.FormEvent) => {
     e.preventDefault();
     if (passForm.newPassword !== passForm.confirmPassword) {
@@ -50,8 +44,8 @@ export default function SettingsComponent() {
       setIsPassModalOpen(false);
       setPassForm({ newPassword: "", confirmPassword: "" });
 
-    } catch (error: Error | unknown) {
-      const errorMessage = error instanceof Error ? error.message : "Unknown error";
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : "Terjadi kesalahan";
       alert("Gagal mengubah password: " + errorMessage);
     } finally {
       setLoading(false);
@@ -67,14 +61,13 @@ export default function SettingsComponent() {
         
         <div className="space-y-8">
           
-          {/* --- SECTION 1: NOTIFIKASI --- */}
+          {/* NOTIFIKASI */}
           <div>
             <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
               <Bell size={18} /> Notifikasi
             </h3>
             <div className="space-y-4">
               
-              {/* Email Toggle */}
               <div className="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition">
                 <div>
                   <p className="font-medium text-gray-800">Notifikasi Email</p>
@@ -91,7 +84,6 @@ export default function SettingsComponent() {
                 </label>
               </div>
               
-              {/* Push Toggle */}
               <div className="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition">
                 <div>
                   <p className="font-medium text-gray-800">Push Notifications</p>
@@ -110,14 +102,13 @@ export default function SettingsComponent() {
             </div>
           </div>
 
-          {/* --- SECTION 2: KEAMANAN --- */}
+          {/* KEAMANAN */}
           <div>
             <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
               <Lock size={18} /> Keamanan
             </h3>
             <div className="space-y-3">
               
-              {/* Change Password Button */}
               <button 
                 onClick={() => setIsPassModalOpen(true)}
                 className="w-full text-left p-4 border border-gray-200 rounded-lg hover:border-blue-400 hover:shadow-md transition-all group"
@@ -131,7 +122,6 @@ export default function SettingsComponent() {
                 </div>
               </button>
 
-              {/* 2FA Placeholder */}
               <button disabled className="w-full text-left p-4 border border-gray-200 rounded-lg opacity-60 cursor-not-allowed bg-gray-50">
                 <div className="flex justify-between items-center">
                   <div>
@@ -147,7 +137,7 @@ export default function SettingsComponent() {
         </div>
       </div>
 
-      {/* --- MODAL GANTI PASSWORD --- */}
+      {/* MODAL PASSWORD */}
       {isPassModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
           <div className="bg-white rounded-xl shadow-xl w-full max-w-md overflow-hidden animate-in fade-in zoom-in duration-200">

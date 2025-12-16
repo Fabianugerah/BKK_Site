@@ -46,7 +46,7 @@ export default function JobsComponent() {
       const { data, error } = await supabase
         .from("jobs")
         .select("*")
-        .eq("company_id", user.id) // Filter hanya lowongan milik perusahaan ini
+        .eq("company_id", user.id)
         .order("created_at", { ascending: false });
 
       if (error) throw error;
@@ -60,6 +60,7 @@ export default function JobsComponent() {
 
   useEffect(() => {
     fetchJobs();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // --- 2. HANDLE SUBMIT (CREATE) ---
@@ -70,7 +71,6 @@ export default function JobsComponent() {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("Sesi pengguna tidak ditemukan");
 
-      // Insert ke Supabase
       const { error } = await supabase.from("jobs").insert({
         company_id: user.id,
         title: formData.title,
@@ -80,21 +80,20 @@ export default function JobsComponent() {
         salary_max: parseInt(formData.salary_max) || 0,
         description: formData.description,
         requirements: formData.requirements,
-        is_active: true, // Default aktif saat dibuat
+        is_active: true,
       });
 
       if (error) throw error;
 
       alert("Lowongan berhasil dibuat!");
       setIsModalOpen(false);
-      // Reset Form
       setFormData({ 
         title: "", type: "Fulltime", location: "", salary_min: "", salary_max: "", description: "", requirements: "" 
       });
-      fetchJobs(); // Refresh data
+      fetchJobs();
 
-    } catch (error: unknown) {
-      const errorMessage = error instanceof Error ? error.message : "Kesalahan tidak diketahui";
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : "Terjadi kesalahan";
       alert("Gagal membuat lowongan: " + errorMessage);
     } finally {
       setSubmitting(false);
@@ -110,10 +109,9 @@ export default function JobsComponent() {
       const { error } = await supabase.from("jobs").delete().eq("id", id);
       if (error) throw error;
       
-      // Hapus dari state lokal agar UI update instan
       setJobs(jobs.filter((job) => job.id !== id));
-    } catch (error: unknown) {
-      const errorMessage = error instanceof Error ? error.message : "Kesalahan tidak diketahui";
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : "Terjadi kesalahan";
       alert("Gagal menghapus: " + errorMessage);
     }
   };
@@ -128,7 +126,6 @@ export default function JobsComponent() {
       
       if (error) throw error;
       
-      // Update state lokal
       setJobs(jobs.map(job => job.id === id ? { ...job, is_active: !currentStatus } : job));
     } catch (error) {
       console.error("Error updating status:", error);
@@ -178,7 +175,6 @@ export default function JobsComponent() {
           {jobs.map((job) => (
             <div key={job.id} className={`group bg-white rounded-xl border p-5 transition-all hover:shadow-lg hover:-translate-y-1 relative ${job.is_active ? 'border-gray-200' : 'border-gray-100 bg-gray-50 opacity-80'}`}>
               
-              {/* Header Card */}
               <div className="flex justify-between items-start mb-3">
                 <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide border ${
                   job.is_active ? "bg-green-50 text-green-700 border-green-100" : "bg-gray-100 text-gray-500 border-gray-200"
@@ -194,7 +190,6 @@ export default function JobsComponent() {
                 </button>
               </div>
 
-              {/* Title & Info */}
               <h3 className="font-bold text-lg text-gray-800 mb-1 line-clamp-1 group-hover:text-blue-600 transition-colors">{job.title}</h3>
               
               <div className="space-y-2.5 text-sm text-gray-600 mb-5 mt-3">
@@ -214,7 +209,6 @@ export default function JobsComponent() {
                 </div>
               </div>
 
-              {/* Action Button */}
               <div className="pt-4 border-t border-gray-100 flex gap-3">
                 <button 
                   onClick={() => toggleStatus(job.id, job.is_active)}
@@ -237,7 +231,6 @@ export default function JobsComponent() {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-in fade-in duration-200">
           <div className="bg-white rounded-xl shadow-2xl w-full max-w-3xl max-h-[90vh] overflow-hidden flex flex-col">
             
-            {/* Modal Header */}
             <div className="flex justify-between items-center px-6 py-4 border-b bg-gray-50">
               <div>
                 <h2 className="text-lg font-bold text-gray-800">Buat Lowongan Baru</h2>
@@ -248,11 +241,9 @@ export default function JobsComponent() {
               </button>
             </div>
 
-            {/* Modal Body (Scrollable) */}
             <div className="overflow-y-auto p-6">
               <form id="createJobForm" onSubmit={handleSubmit} className="space-y-5">
                 
-                {/* Judul & Tipe */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
                   <div className="md:col-span-2">
                     <label className="block text-xs font-bold text-gray-700 uppercase mb-1.5">Judul Posisi <span className="text-red-500">*</span></label>
@@ -263,7 +254,7 @@ export default function JobsComponent() {
                   <div>
                     <label className="block text-xs font-bold text-gray-700 uppercase mb-1.5">Tipe Pekerjaan</label>
                     <select className="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500 outline-none bg-white"
-                      value={formData.type} onChange={e => setFormData({...formData, type: e.target.value as "Fulltime" | "Parttime" | "Internship" | "Contract"})}>
+                      value={formData.type} onChange={e => setFormData({...formData, type: e.target.value})}>
                       <option value="Fulltime">Fulltime</option>
                       <option value="Parttime">Parttime</option>
                       <option value="Contract">Contract</option>
@@ -272,7 +263,6 @@ export default function JobsComponent() {
                   </div>
                 </div>
 
-                {/* Lokasi */}
                 <div>
                   <label className="block text-xs font-bold text-gray-700 uppercase mb-1.5">Lokasi Kerja <span className="text-red-500">*</span></label>
                   <div className="relative">
@@ -283,7 +273,6 @@ export default function JobsComponent() {
                   </div>
                 </div>
 
-                {/* Range Gaji */}
                 <div className="grid grid-cols-2 gap-5 p-4 bg-gray-50 rounded-lg border border-gray-100">
                   <div>
                     <label className="block text-xs font-bold text-gray-700 uppercase mb-1.5">Gaji Minimum (Rp)</label>
@@ -297,7 +286,6 @@ export default function JobsComponent() {
                   </div>
                 </div>
 
-                {/* Deskripsi */}
                 <div>
                   <label className="block text-xs font-bold text-gray-700 uppercase mb-1.5">Deskripsi Pekerjaan <span className="text-red-500">*</span></label>
                   <textarea required rows={4} className="w-full border border-gray-300 rounded-lg p-2.5 outline-none focus:ring-2 focus:ring-blue-500 resize-none" 
@@ -305,7 +293,6 @@ export default function JobsComponent() {
                     value={formData.description} onChange={e => setFormData({...formData, description: e.target.value})}></textarea>
                 </div>
 
-                {/* Requirements */}
                 <div>
                   <label className="block text-xs font-bold text-gray-700 uppercase mb-1.5">Kualifikasi / Syarat <span className="text-red-500">*</span></label>
                   <textarea required rows={4} className="w-full border border-gray-300 rounded-lg p-2.5 outline-none focus:ring-2 focus:ring-blue-500 resize-none" 
@@ -317,7 +304,6 @@ export default function JobsComponent() {
               </form>
             </div>
 
-            {/* Modal Footer */}
             <div className="p-4 border-t bg-gray-50 flex justify-end gap-3">
               <button type="button" onClick={() => setIsModalOpen(false)} className="px-5 py-2.5 text-gray-600 font-bold hover:bg-gray-200 rounded-lg transition text-sm">
                 Batal

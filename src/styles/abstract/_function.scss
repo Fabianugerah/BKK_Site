@@ -3,10 +3,6 @@
   @return $px / 16 * 1rem;
 }
 
-@function fluidSize($px) {
-  @return $px / 1440 * 100vw;
-}
-
 // Calculates a percentage of a pixel value, e.g. -3% of 64px -> -1.92px
 @function percentOf($percentage, $value) {
   $ratio: $percentage / 100%;
