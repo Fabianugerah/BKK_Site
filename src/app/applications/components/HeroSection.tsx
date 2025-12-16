@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { motion, useInView, Variants } from "framer-motion";
+import Link from "next/link";
 import Image from "next/image";
 import heroImage from "@/assets/images/smk.png";
 
