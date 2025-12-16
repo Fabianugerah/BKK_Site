@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Check, CheckCheck, Bell, Loader2, Trash2 } from "lucide-react";
+import { CheckCheck, Bell, Loader2, Trash2 } from "lucide-react";
 import { createClient } from "@/lib/supabase";
 
 // Tipe data sesuai database

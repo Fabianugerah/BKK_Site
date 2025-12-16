@@ -93,8 +93,9 @@ export default function JobsComponent() {
       });
       fetchJobs(); // Refresh data
 
-    } catch (error: any) {
-      alert("Gagal membuat lowongan: " + error.message);
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : "Kesalahan tidak diketahui";
+      alert("Gagal membuat lowongan: " + errorMessage);
     } finally {
       setSubmitting(false);
     }
@@ -111,8 +112,9 @@ export default function JobsComponent() {
       
       // Hapus dari state lokal agar UI update instan
       setJobs(jobs.filter((job) => job.id !== id));
-    } catch (error: any) {
-      alert("Gagal menghapus: " + error.message);
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : "Kesalahan tidak diketahui";
+      alert("Gagal menghapus: " + errorMessage);
     }
   };
 
@@ -261,7 +263,7 @@ export default function JobsComponent() {
                   <div>
                     <label className="block text-xs font-bold text-gray-700 uppercase mb-1.5">Tipe Pekerjaan</label>
                     <select className="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500 outline-none bg-white"
-                      value={formData.type} onChange={e => setFormData({...formData, type: e.target.value as any})}>
+                      value={formData.type} onChange={e => setFormData({...formData, type: e.target.value as "Fulltime" | "Parttime" | "Internship" | "Contract"})}>
                       <option value="Fulltime">Fulltime</option>
                       <option value="Parttime">Parttime</option>
                       <option value="Contract">Contract</option>

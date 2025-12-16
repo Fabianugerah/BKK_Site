@@ -64,8 +64,9 @@ export default function LoginPage({ onToggle }: LoginPageProps) {
         router.push("/jobseeker");
       }
 
-    } catch (error: any) {
-      alert(error.message); // Tampilkan error sederhana
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : "Terjadi kesalahan yang tidak diketahui";
+      alert(errorMessage); // Tampilkan error sederhana
     } finally {
       setLoading(false);
     }

@@ -82,8 +82,8 @@ export default function ProfileComponent() {
 
       if (error) throw error;
       alert("Profil berhasil diperbarui!");
-    } catch (error: any) {
-      alert("Gagal menyimpan: " + error.message);
+    } catch (error: unknown) {
+      alert("Gagal menyimpan: " + (error instanceof Error ? error.message : "Unknown error"));
     } finally {
       setUpdating(false);
     }

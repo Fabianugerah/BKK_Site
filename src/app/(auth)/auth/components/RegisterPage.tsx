@@ -52,7 +52,7 @@ export default function RegisterPage({ onToggle }: RegisterPageProps) {
   };
 
   const validateForm = () => {
-    let newErrors = { ...errors };
+    const newErrors = { ...errors };
     let isValid = true;
     Object.keys(newErrors).forEach((key) => (newErrors[key as keyof typeof errors] = ""));
 
@@ -133,8 +133,9 @@ export default function RegisterPage({ onToggle }: RegisterPageProps) {
         alert("Registrasi Berhasil!");
         router.push("/company");
       }
-    } catch (error: any) {
-      alert("Error: " + error.message);
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : "Terjadi kesalahan yang tidak diketahui";
+      alert("Error: " + errorMessage);
     } finally {
       setLoading(false);
     }

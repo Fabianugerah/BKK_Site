@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { 
-  Calendar, Clock, Video, User, Briefcase, ChevronRight, 
-  MoreVertical, Edit, ExternalLink, AlertCircle, Loader2 
+  Calendar, Video, User, Briefcase,  
+  Edit, ExternalLink, AlertCircle, Loader2 
 } from "lucide-react";
 import { createClient } from "@/lib/supabase";
 
@@ -128,8 +128,9 @@ export default function ScheduleComponent() {
       setIsModalOpen(false);
       fetchSchedules(); // Refresh data
 
-    } catch (error: any) {
-      alert("Gagal menyimpan: " + error.message);
+    } catch (error: Error | unknown) {
+      const errorMessage = error instanceof Error ? error.message : "Unknown error";
+      alert("Gagal menyimpan: " + errorMessage);
     } finally {
       setSubmitting(false);
     }

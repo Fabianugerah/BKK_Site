@@ -107,7 +107,7 @@ export default function ApplicantsComponent() {
 
       // Update state lokal
       setApplicants(applicants.map(app => 
-        app.id === id ? { ...app, status: newStatus as any } : app
+        app.id === id ? { ...app, status: newStatus as "Pending" | "Review" | "Interview" | "Accepted" | "Rejected" } : app
       ));
     } catch (error) {
       alert("Gagal mengupdate status.");
@@ -213,7 +213,7 @@ export default function ApplicantsComponent() {
                   </p>
                   
                   {app.jobseekers.headline && (
-                    <p className="text-xs text-gray-500 mb-2 italic">"{app.jobseekers.headline}"</p>
+                    <p className="text-xs text-gray-500 mb-2 italic">&ldquo;{app.jobseekers.headline}&rdquo;</p>
                   )}
 
                   <div className="flex items-center gap-3 text-xs text-gray-400">

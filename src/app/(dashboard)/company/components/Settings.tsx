@@ -50,8 +50,9 @@ export default function SettingsComponent() {
       setIsPassModalOpen(false);
       setPassForm({ newPassword: "", confirmPassword: "" });
 
-    } catch (error: any) {
-      alert("Gagal mengubah password: " + error.message);
+    } catch (error: Error | unknown) {
+      const errorMessage = error instanceof Error ? error.message : "Unknown error";
+      alert("Gagal mengubah password: " + errorMessage);
     } finally {
       setLoading(false);
     }

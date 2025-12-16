@@ -149,7 +149,7 @@ export default function DashboardComponent() {
     data.forEach((app) => {
       const date = new Date(app.applied_at);
       if (date >= oneWeekAgo) {
-        let dayIndex = date.getDay();
+        const dayIndex = date.getDay();
         const adjustedIndex = dayIndex === 0 ? 6 : dayIndex - 1;
         if (adjustedIndex >= 0 && adjustedIndex < 7) {
           activity[adjustedIndex] += 1;
