@@ -19,14 +19,14 @@ import Image from "next/image";
 
 // Registrasi Komponen Chart.js
 ChartJS.register(
-  CategoryScale, 
-  LinearScale, 
-  BarElement, 
-  Title, 
-  Tooltip, 
-  Legend, 
-  PointElement, 
-  LineElement, 
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+  PointElement,
+  LineElement,
   Filler
 );
 
@@ -49,7 +49,7 @@ interface Application {
 
 export default function DashboardComponent() {
   const [loading, setLoading] = useState(true);
-  
+
   // Data State
   const [applications, setApplications] = useState<Application[]>([]);
   const [stats, setStats] = useState({
@@ -79,102 +79,102 @@ export default function DashboardComponent() {
 
         // --- DATA DUMMY ---
         const dummyData: Application[] = [
-            {
-                id: 1,
-                status: "Interview",
-                applied_at: getDateMonthsAgo(0, 2),
-                jobs: {
-                    title: "Senior Frontend Engineer",
-                    type: "Full-time",
-                    salary_min: 15000000,
-                    salary_max: 25000000,
-                    companies: { company_name: "Tokopedia", logo_url: null }
-                }
-            },
-            {
-                id: 2,
-                status: "Accepted",
-                applied_at: getDateMonthsAgo(0, 5),
-                jobs: {
-                    title: "React Native Developer",
-                    type: "Remote",
-                    salary_min: 12000000,
-                    salary_max: 18000000,
-                    companies: { company_name: "Gojek", logo_url: null }
-                }
-            },
-            {
-                id: 3,
-                status: "Rejected",
-                applied_at: getDateMonthsAgo(1, 10),
-                jobs: {
-                    title: "UI/UX Designer",
-                    type: "Contract",
-                    salary_min: 8000000,
-                    salary_max: 12000000,
-                    companies: { company_name: "Traveloka", logo_url: null }
-                }
-            },
-            {
-                id: 4,
-                status: "Pending",
-                applied_at: getDateMonthsAgo(0, 1),
-                jobs: {
-                    title: "Backend Golang",
-                    type: "Full-time",
-                    salary_min: 20000000,
-                    salary_max: 30000000,
-                    companies: { company_name: "Shopee", logo_url: null }
-                }
-            },
-            {
-                id: 5,
-                status: "Interview",
-                applied_at: getDateMonthsAgo(1, 5),
-                jobs: {
-                    title: "Software Engineer Lead",
-                    type: "Hybrid",
-                    salary_min: 35000000,
-                    salary_max: 50000000,
-                    companies: { company_name: "Bank Jago", logo_url: null }
-                }
-            },
-            {
-                id: 6,
-                status: "Rejected",
-                applied_at: getDateMonthsAgo(2, 0),
-                jobs: {
-                    title: "System Analyst",
-                    type: "Full-time",
-                    salary_min: 10000000,
-                    salary_max: 15000000,
-                    companies: { company_name: "Telkom Indonesia", logo_url: null }
-                }
-            },
-            {
-                id: 7,
-                status: "Pending",
-                applied_at: getDateMonthsAgo(3, 0),
-                jobs: {
-                    title: "IT Support",
-                    type: "On-site",
-                    salary_min: 5000000,
-                    salary_max: 7000000,
-                    companies: { company_name: "BCA", logo_url: null }
-                }
-            },
-            {
-                id: 8,
-                status: "Pending",
-                applied_at: getDateMonthsAgo(0, 3),
-                jobs: {
-                    title: "Next.js Developer",
-                    type: "Remote",
-                    salary_min: 10000000,
-                    salary_max: 15000000,
-                    companies: { company_name: "Startup Indo", logo_url: null }
-                }
-            },
+          {
+            id: 1,
+            status: "Interview",
+            applied_at: getDateMonthsAgo(0, 2),
+            jobs: {
+              title: "Senior Frontend Engineer",
+              type: "Full-time",
+              salary_min: 15000000,
+              salary_max: 25000000,
+              companies: { company_name: "Tokopedia", logo_url: null }
+            }
+          },
+          {
+            id: 2,
+            status: "Accepted",
+            applied_at: getDateMonthsAgo(0, 5),
+            jobs: {
+              title: "React Native Developer",
+              type: "Remote",
+              salary_min: 12000000,
+              salary_max: 18000000,
+              companies: { company_name: "Gojek", logo_url: null }
+            }
+          },
+          {
+            id: 3,
+            status: "Rejected",
+            applied_at: getDateMonthsAgo(1, 10),
+            jobs: {
+              title: "UI/UX Designer",
+              type: "Contract",
+              salary_min: 8000000,
+              salary_max: 12000000,
+              companies: { company_name: "Traveloka", logo_url: null }
+            }
+          },
+          {
+            id: 4,
+            status: "Pending",
+            applied_at: getDateMonthsAgo(0, 1),
+            jobs: {
+              title: "Backend Golang",
+              type: "Full-time",
+              salary_min: 20000000,
+              salary_max: 30000000,
+              companies: { company_name: "Shopee", logo_url: null }
+            }
+          },
+          {
+            id: 5,
+            status: "Interview",
+            applied_at: getDateMonthsAgo(1, 5),
+            jobs: {
+              title: "Software Engineer Lead",
+              type: "Hybrid",
+              salary_min: 35000000,
+              salary_max: 50000000,
+              companies: { company_name: "Bank Jago", logo_url: null }
+            }
+          },
+          {
+            id: 6,
+            status: "Rejected",
+            applied_at: getDateMonthsAgo(2, 0),
+            jobs: {
+              title: "System Analyst",
+              type: "Full-time",
+              salary_min: 10000000,
+              salary_max: 15000000,
+              companies: { company_name: "Telkom Indonesia", logo_url: null }
+            }
+          },
+          {
+            id: 7,
+            status: "Pending",
+            applied_at: getDateMonthsAgo(3, 0),
+            jobs: {
+              title: "IT Support",
+              type: "On-site",
+              salary_min: 5000000,
+              salary_max: 7000000,
+              companies: { company_name: "BCA", logo_url: null }
+            }
+          },
+          {
+            id: 8,
+            status: "Pending",
+            applied_at: getDateMonthsAgo(0, 3),
+            jobs: {
+              title: "Next.js Developer",
+              type: "Remote",
+              salary_min: 10000000,
+              salary_max: 15000000,
+              companies: { company_name: "Startup Indo", logo_url: null }
+            }
+          },
         ];
 
         setApplications(dummyData);
@@ -214,14 +214,14 @@ export default function DashboardComponent() {
       const appDate = new Date(app.applied_at);
       const diffMonth = (today.getFullYear() - appDate.getFullYear()) * 12 + (today.getMonth() - appDate.getMonth());
       if (diffMonth >= 0 && diffMonth < 6) {
-        activityCounts[5 - diffMonth] += 1; 
+        activityCounts[5 - diffMonth] += 1;
       }
     });
     setMonthlyActivity(activityCounts);
   };
 
   // --- 2. CONFIG CHART ---
-  
+
   // (UBAH DARI DONUT KE LINE CHART DATA)
   const lineStatusData = {
     labels: ["Menunggu", "Interview", "Diterima", "Ditolak"],
@@ -229,9 +229,9 @@ export default function DashboardComponent() {
       {
         label: "Jumlah Lamaran",
         data: [
-          applications.length - (stats.interview + stats.accepted + stats.rejected), 
-          stats.interview, 
-          stats.accepted, 
+          applications.length - (stats.interview + stats.accepted + stats.rejected),
+          stats.interview,
+          stats.accepted,
           stats.rejected
         ],
         // Styling Garis
@@ -259,25 +259,29 @@ export default function DashboardComponent() {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
-      legend: { display: false }, // Hide legend karena label sumbu X sudah jelas
+      legend: { display: false },
       tooltip: {
+        backgroundColor: "#1f2937",
+        padding: 12,
+        titleFont: { size: 13 },
+        bodyFont: { size: 13 },
         callbacks: {
-           label: function(context: any) {
-              return ` ${context.raw} Lamaran`;
-           }
+          label: function (context: { raw: number }) {
+            return ` ${context.raw} Lamaran`;
+          }
         }
       }
     },
     scales: {
       y: {
         beginAtZero: true,
+        ticks: { stepSize: 1 },
         grid: { color: "#f3f4f6" },
-        ticks: { stepSize: 1 }
       },
       x: {
-        grid: { display: false }
-      }
-    }
+        grid: { display: false },
+      },
+    },
   };
 
   const barData = {
@@ -306,13 +310,13 @@ export default function DashboardComponent() {
   // Helpers
   const formatRupiah = (num: number) => new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR", maximumFractionDigits: 0 }).format(num);
   const getInitials = (name: string) => name ? name.substring(0, 2).toUpperCase() : "CO";
-  
+
   const getStatusBadge = (status: string) => {
     switch (status) {
-      case "Interview": return <span className="flex items-center gap-1 bg-amber-100 text-amber-700 px-2.5 py-0.5 rounded-full text-xs font-bold border border-amber-200"><Calendar size={12}/> Interview</span>;
-      case "Accepted": return <span className="flex items-center gap-1 bg-emerald-100 text-emerald-700 px-2.5 py-0.5 rounded-full text-xs font-bold border border-emerald-200"><CheckCircle size={12}/> Diterima</span>;
-      case "Rejected": return <span className="flex items-center gap-1 bg-red-50 text-red-600 px-2.5 py-0.5 rounded-full text-xs font-bold border border-red-100"><XCircle size={12}/> Ditolak</span>;
-      default: return <span className="flex items-center gap-1 bg-gray-100 text-gray-600 px-2.5 py-0.5 rounded-full text-xs font-bold border border-gray-200"><Clock size={12}/> Terkirim</span>;
+      case "Interview": return <span className="flex items-center gap-1 bg-amber-100 text-amber-700 px-2.5 py-0.5 rounded-full text-xs font-bold border border-amber-200"><Calendar size={12} /> Interview</span>;
+      case "Accepted": return <span className="flex items-center gap-1 bg-emerald-100 text-emerald-700 px-2.5 py-0.5 rounded-full text-xs font-bold border border-emerald-200"><CheckCircle size={12} /> Diterima</span>;
+      case "Rejected": return <span className="flex items-center gap-1 bg-red-50 text-red-600 px-2.5 py-0.5 rounded-full text-xs font-bold border border-red-100"><XCircle size={12} /> Ditolak</span>;
+      default: return <span className="flex items-center gap-1 bg-gray-100 text-gray-600 px-2.5 py-0.5 rounded-full text-xs font-bold border border-gray-200"><Clock size={12} /> Terkirim</span>;
     }
   };
 
@@ -320,51 +324,51 @@ export default function DashboardComponent() {
 
   return (
     <div className="space-y-6">
-      
+
       {/* --- ROW 1: KARTU RINGKASAN --- */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <div className="bg-gradient-to-br from-amber-400 to-amber-500 p-4 rounded-xl text-white shadow-lg shadow-amber-200">
-           <p className="text-amber-100 text-xs font-bold uppercase">Total Melamar</p>
-           <h3 className="text-3xl font-bold mt-1">{stats.total}</h3>
+          <p className="text-amber-100 text-xs font-bold uppercase">Total Melamar</p>
+          <h3 className="text-3xl font-bold mt-1">{stats.total}</h3>
         </div>
         <div className="bg-white p-4 rounded-xl border border-gray-100 shadow-sm">
-           <p className="text-gray-400 text-xs font-bold uppercase">Panggilan Interview</p>
-           <h3 className="text-3xl font-bold text-gray-800 mt-1">{stats.interview}</h3>
+          <p className="text-gray-400 text-xs font-bold uppercase">Panggilan Interview</p>
+          <h3 className="text-3xl font-bold text-gray-800 mt-1">{stats.interview}</h3>
         </div>
         <div className="bg-white p-4 rounded-xl border border-gray-100 shadow-sm">
-           <p className="text-gray-400 text-xs font-bold uppercase">Menunggu Respon</p>
-           <h3 className="text-3xl font-bold text-gray-800 mt-1">{applications.length - (stats.interview + stats.accepted + stats.rejected)}</h3>
+          <p className="text-gray-400 text-xs font-bold uppercase">Menunggu Respon</p>
+          <h3 className="text-3xl font-bold text-gray-800 mt-1">{applications.length - (stats.interview + stats.accepted + stats.rejected)}</h3>
         </div>
         <div className="bg-white p-4 rounded-xl border border-gray-100 shadow-sm">
-           <p className="text-gray-400 text-xs font-bold uppercase">Ditolak</p>
-           <h3 className="text-3xl font-bold text-gray-800 mt-1">{stats.rejected}</h3>
+          <p className="text-gray-400 text-xs font-bold uppercase">Ditolak</p>
+          <h3 className="text-3xl font-bold text-gray-800 mt-1">{stats.rejected}</h3>
         </div>
       </div>
 
       {/* --- ROW 2: GRAFIK STATISTIK --- */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        
+
         {/* Chart Status (LINE CHART) */}
         <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm h-80 flex flex-col">
           <h3 className="text-lg font-bold text-gray-800 mb-2">Status Lamaran Saya</h3>
           <div className="flex-1 relative w-full min-h-0">
-             {applications.length > 0 ? (
-                // GANTI DARI DOUGHNUT KE LINE
-                <Line data={lineStatusData} options={lineStatusOptions} />
-             ) : (
-                <div className="flex items-center justify-center h-full text-gray-400 text-sm">Belum ada data</div>
-             )}
+            {applications.length > 0 ? (
+              // GANTI DARI DOUGHNUT KE LINE
+              <Line data={lineStatusData} options={lineStatusOptions} />
+            ) : (
+              <div className="flex items-center justify-center h-full text-gray-400 text-sm">Belum ada data</div>
+            )}
           </div>
         </div>
 
         {/* Chart Aktivitas (BAR CHART) */}
         <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm h-80 flex flex-col">
           <div className="flex justify-between items-center mb-4">
-             <h3 className="text-lg font-bold text-gray-800">Keaktifan Melamar</h3>
-             <span className="text-xs bg-gray-100 px-2 py-1 rounded text-gray-500">6 Bulan Terakhir</span>
+            <h3 className="text-lg font-bold text-gray-800">Keaktifan Melamar</h3>
+            <span className="text-xs bg-gray-100 px-2 py-1 rounded text-gray-500">6 Bulan Terakhir</span>
           </div>
           <div className="flex-1 w-full min-h-0">
-             <Bar data={barData} options={barOptions} />
+            <Bar data={barData} options={barOptions} />
           </div>
         </div>
 
@@ -375,7 +379,7 @@ export default function DashboardComponent() {
         <div className="p-6 border-b border-gray-100 flex justify-between items-center">
           <h3 className="text-lg font-bold text-gray-800">Riwayat Lamaran Terbaru</h3>
           <button className="text-sm font-medium text-amber-600 hover:underline flex items-center gap-1">
-              Lihat Semua <ArrowRight size={14} />
+            Lihat Semua <ArrowRight size={14} />
           </button>
         </div>
 
@@ -398,21 +402,21 @@ export default function DashboardComponent() {
                   <tr key={app.id} className="hover:bg-amber-50/20 transition-colors">
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 bg-white border border-gray-200 rounded-lg flex items-center justify-center p-1 overflow-hidden">
-                           {app.jobs.companies.logo_url ? (
-                             <Image width={32} height={32} src={app.jobs.companies.logo_url} alt="Logo" className="object-contain" />
-                           ) : (
-                             <span className="text-xs font-bold text-gray-400">{getInitials(app.jobs.companies.company_name)}</span>
-                           )}
-                          </div>
-                          <div>
-                            <p className="font-bold text-gray-900">{app.jobs.title}</p>
-                            <p className="text-xs text-gray-500">{app.jobs.companies.company_name}</p>
-                          </div>
+                        <div className="w-10 h-10 bg-white border border-gray-200 rounded-lg flex items-center justify-center p-1 overflow-hidden">
+                          {app.jobs.companies.logo_url ? (
+                            <Image width={32} height={32} src={app.jobs.companies.logo_url} alt="Logo" className="object-contain" />
+                          ) : (
+                            <span className="text-xs font-bold text-gray-400">{getInitials(app.jobs.companies.company_name)}</span>
+                          )}
+                        </div>
+                        <div>
+                          <p className="font-bold text-gray-900">{app.jobs.title}</p>
+                          <p className="text-xs text-gray-500">{app.jobs.companies.company_name}</p>
+                        </div>
                       </div>
                     </td>
                     <td className="px-6 py-4 text-gray-600 flex items-center gap-2">
-                      <Briefcase size={14} className="text-gray-400"/> {app.jobs.type}
+                      <Briefcase size={14} className="text-gray-400" /> {app.jobs.type}
                     </td>
                     <td className="px-6 py-4 text-gray-600 font-medium">
                       {formatRupiah(app.jobs.salary_min)}
