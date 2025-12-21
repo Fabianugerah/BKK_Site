@@ -1,21 +1,109 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import logo from "@/assets/images/logo.png";
 import { Button } from "@/components/ui/button";
+import { createClient } from "@/lib/supabase";
+import ProfileDropdown from "./ProfileDropdown";
 
-const Navbar: React.FC = (
+interface UserProfile {
+  userType: "jobseeker" | "company";
+  userName: string;
+  userEmail: string;
+  avatarUrl?: string | null;
+}
 
-) => {
+const Navbar: React.FC = () => {
   const [showDropdown, setShowDropdown] = useState(false);
+  const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
+  const [loading, setLoading] = useState(true);
   const pathname = usePathname();
+  const supabase = createClient();
+
+  // Check auth status and fetch user profile
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const { data: { user } } = await supabase.auth.getUser();
+        
+        if (!user) {
+          setUserProfile(null);
+          setLoading(false);
+          return;
+        }
+
+        // Get user profile from profiles table
+        const { data: profile } = await supabase
+          .from("profiles")
+          .select("role")
+          .eq("id", user.id)
+          .single();
+
+        if (!profile) {
+          setUserProfile(null);
+          setLoading(false);
+          return;
+        }
+
+        const userType = profile.role as "jobseeker" | "company";
+
+        // Fetch specific user data based on role
+        if (userType === "jobseeker") {
+          const { data: jobseeker } = await supabase
+            .from("jobseekers")
+            .select("first_name, last_name, avatar_url")
+            .eq("id", user.id)
+            .single();
+
+          if (jobseeker) {
+            setUserProfile({
+              userType: "jobseeker",
+              userName: `${jobseeker.first_name} ${jobseeker.last_name}`,
+              userEmail: user.email || "",
+              avatarUrl: jobseeker.avatar_url,
+            });
+          }
+        } else {
+          const { data: company } = await supabase
+            .from("companies")
+            .select("company_name, logo_url")
+            .eq("id", user.id)
+            .single();
+
+          if (company) {
+            setUserProfile({
+              userType: "company",
+              userName: company.company_name,
+              userEmail: user.email || "",
+              avatarUrl: company.logo_url,
+            });
+          }
+        }
+      } catch (error) {
+        console.error("Error checking auth:", error);
+        setUserProfile(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    checkAuth();
+
+    // Subscribe to auth changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(() => {
+      checkAuth();
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [supabase]);
 
   const getActiveMenu = () => {
     if (pathname === "/") return "Home";
-
     if (pathname === "/about") return "Tentang Kami";
     if (pathname === "/contact") return "Contact";
     if (pathname === "/lowongan") return "Lowongan Kerja";
@@ -45,8 +133,12 @@ const Navbar: React.FC = (
               />
             </div>
             <div className="flex flex-col text-white">
-              <div className="text-sm font-semibold leading-tight">BKK SMK NEGERI 1</div>
-              <div className="text-sm font-semibold leading-tight">PURWOSARI</div>
+              <div className="text-sm font-semibold leading-tight">
+                BKK SMK NEGERI 1
+              </div>
+              <div className="text-sm font-semibold leading-tight">
+                PURWOSARI
+              </div>
             </div>
           </Link>
 
@@ -64,11 +156,15 @@ const Navbar: React.FC = (
                 <span
                   className={`absolute bottom-0 left-0 h-[2px] bg-[#FEFB09]
                   transition-all duration-300
-                  ${activeMenu === "Home" ? "w-full" : "w-0 group-hover:w-full"}`}
+                  ${
+                    activeMenu === "Home"
+                      ? "w-full"
+                      : "w-0 group-hover:w-full"
+                  }`}
                 />
               </Link>
 
-              {/* Lowongan Kerja */}
+              {/* Tentang Kami */}
               <Link
                 href="/about"
                 className="body-regular_regular text-white cursor-pointer 
@@ -79,7 +175,11 @@ const Navbar: React.FC = (
                 <span
                   className={`absolute bottom-0 left-0 h-[2px] bg-[#FEFB09] 
                   transition-all duration-300
-                  ${activeMenu === "Tentang Kami" ? "w-full" : "w-0 group-hover:w-full"}`}
+                  ${
+                    activeMenu === "Tentang Kami"
+                      ? "w-full"
+                      : "w-0 group-hover:w-full"
+                  }`}
                 />
               </Link>
 
@@ -94,7 +194,11 @@ const Navbar: React.FC = (
                 <span
                   className={`absolute bottom-0 left-0 h-[2px] bg-[#FEFB09] 
                   transition-all duration-300
-                  ${activeMenu === "Lowongan Kerja" ? "w-full" : "w-0 group-hover:w-full"}`}
+                  ${
+                    activeMenu === "Lowongan Kerja"
+                      ? "w-full"
+                      : "w-0 group-hover:w-full"
+                  }`}
                 />
               </Link>
 
@@ -109,59 +213,77 @@ const Navbar: React.FC = (
                 <span
                   className={`absolute bottom-0 left-0 h-[2px] bg-[#FEFB09] 
                   transition-all duration-300
-                  ${activeMenu === "Contact" ? "w-full" : "w-0 group-hover:w-full"}`}
+                  ${
+                    activeMenu === "Contact"
+                      ? "w-full"
+                      : "w-0 group-hover:w-full"
+                  }`}
                 />
               </Link>
             </div>
 
-            {/* Login Button with Dropdown */}
-            <div className="relative">
-              <Button
-                onClick={() => setShowDropdown(!showDropdown)}
-                className="w-20 h-9 justify-self-center text-white
-                  backdrop-blur-md bg-white/40 hover:bg-white/50 
-                  transition-all duration-300 relative z-10 border border-white/20"
-                style={{
-                  borderRadius: 20,
-                }}
-              >
-                Login
-              </Button>
+            {/* Auth Section */}
+            {loading ? (
+              // Loading state
+              <div className="w-20 h-9 bg-white/20 rounded-full animate-pulse" />
+            ) : userProfile ? (
+              // Show ProfileDropdown if logged in
+              <ProfileDropdown
+                userType={userProfile.userType}
+                userName={userProfile.userName}
+                userEmail={userProfile.userEmail}
+                avatarUrl={userProfile.avatarUrl}
+              />
+            ) : (
+              // Show Login Button if not logged in
+              <div className="relative">
+                <Button
+                  onClick={() => setShowDropdown(!showDropdown)}
+                  className="w-20 h-9 justify-self-center text-white
+                    backdrop-blur-md bg-white/40 hover:bg-white/50 
+                    transition-all duration-300 relative z-10 border border-white/20"
+                  style={{
+                    borderRadius: 20,
+                  }}
+                >
+                  Login
+                </Button>
 
-              {showDropdown && (
-                <>
-                  <div
-                    className="fixed inset-0 z-20"
-                    onClick={() => setShowDropdown(false)}
-                  />
+                {showDropdown && (
+                  <>
+                    <div
+                      className="fixed inset-0 z-20"
+                      onClick={() => setShowDropdown(false)}
+                    />
 
-                  {/* Dropdown Menu */}
-                  <div
-                    className="absolute top-full mt-6 z-30
-                      backdrop-blur-lg bg-black/50 border border-white/20 
-                      shadow-xl overflow-hidden w-[92px] items-center rounded-xl"
-                  >
-                    <Link
-                      href="/auth"
-                      onClick={() => setShowDropdown(false)}
-                      className="block w-full px-4 py-3 text-white text-left body-small_regular 
-                        transition-colors duration-200 hover:bg-white/10"
+                    {/* Dropdown Menu */}
+                    <div
+                      className="absolute top-full mt-6 z-30
+                        backdrop-blur-lg bg-black/50 border border-white/20 
+                        shadow-xl overflow-hidden w-[92px] items-center rounded-xl"
                     >
-                      Alumni
-                    </Link>
-                    <hr className="border-white/10 mx-2" />
-                    <Link
-                      href="/auth"
-                      onClick={() => setShowDropdown(false)}
-                      className="block w-full px-4 py-3 text-white text-left body-small_regular 
-                        transition-colors duration-200 hover:bg-white/10"
-                    >
-                      Industri
-                    </Link>
-                  </div>
-                </>
-              )}
-            </div>
+                      <Link
+                        href="/auth"
+                        onClick={() => setShowDropdown(false)}
+                        className="block w-full px-4 py-3 text-white text-left body-small_regular 
+                          transition-colors duration-200 hover:bg-white/10"
+                      >
+                        Alumni
+                      </Link>
+                      <hr className="border-white/10 mx-2" />
+                      <Link
+                        href="/auth"
+                        onClick={() => setShowDropdown(false)}
+                        className="block w-full px-4 py-3 text-white text-left body-small_regular 
+                          transition-colors duration-200 hover:bg-white/10"
+                      >
+                        Industri
+                      </Link>
+                    </div>
+                  </>
+                )}
+              </div>
+            )}
           </div>
         </div>
       </div>
