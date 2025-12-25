@@ -172,10 +172,10 @@ export default function JobListings() {
         <motion.div variants={sectionVariants} className="text-center">
           <motion.p
             variants={fadeUp}
-            className="inline-block text-sm text-black bg-gray-100 px-4 py-2 rounded-full mb-3"
+            className="inline-block text-sm bg-gradient-to-br from-white/10 via-white/5 to-black/20 backdrop-blur-lg text-black text-sm border border-gray-300 px-4 py-2 rounded-full mb-4"
           >
             Lowongan Kerja
-          </motion.p>
+          </motion.p>     
 
           <motion.h2
             variants={fadeUp}

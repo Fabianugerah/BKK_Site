@@ -273,7 +273,7 @@ export default function ContactPage() {
 
                         <div className="p-6 bg-gray-50 border-t border-gray-200 flex justify-between items-center">
                             <div>
-                                <h3 className="body-large_semi-bold text-gray-900 mb-2">Visit Our School</h3>
+                                <h3 className="body-large_semi-bold text-gray-900 mb-2">SMK Negeri 1 Purwosari</h3>
                                 <p className="body-small_regular text-gray-500">
                                     Jl. Raya Purwosari No. 1, Kec Purwosari, Kab Pasuruan, Jawa Timur 67162
                                 </p>
@@ -282,7 +282,7 @@ export default function ContactPage() {
                                 href="https://www.google.com/maps/place/SMK+Negeri+1+Purwosari/@-7.7677804,112.7458312,17z/data=!3m1!4b1!4m6!3m5!1s0x2dd7d3c5631acbf5:0xa71d9f205034b481!8m2!3d-7.7677804!4d112.7484061!16s%2Fg%2F1hm2z5xcc?authuser=0&entry=ttu&g_ep=EgoyMDI1MTIwOS4wIKXMDSoASAFQAw%3D%3D"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="inline-flex items-center gap-2 px-6 py-3 bg-black text-white rounded-full transition-all group body-small_semi-bold"
+                                className="inline-flex items-center gap-2 px-6 py-4 bg-black text-white rounded-full transition-all group body-small_semi-bold"
                             >
                                 <MapPin className="w-4 h-4" />
                                 <span>Open in Maps</span>

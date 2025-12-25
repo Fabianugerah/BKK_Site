@@ -3,6 +3,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { motion, useInView, Variants } from "framer-motion";
 import Image from "next/image";
+import Link from "next/link";
 import heroImage from "@/assets/images/smk.png";
 
 /* =========================
@@ -138,11 +139,11 @@ const HeroSection: React.FC = () => {
               variants={textItem}
               className="mt-8 flex flex-col sm:flex-row gap-4"
             >
-              <button className="px-8 py-3 bg-neutral-500 text-black rounded-2xl font-medium transition-all duration-300 hover:-translate-y-1">
+              <Link href="/lowongan" className="px-8 py-3 bg-neutral-500 text-black rounded-2xl font-medium transition-all duration-300 hover:-translate-y-1 cursor-pointer">
                 Lihat Lowongan
-              </button>
+              </Link>
 
-              <button className="px-8 py-3 bg-transparent backdrop-blur-[1px] border border-white/50 text-white rounded-2xl font-medium hover:backdrop-blur-[2px] hover:border-white/70 transition-all duration-300 hover:-translate-y-1">
+              <button className="px-8 py-3 bg-transparent backdrop-blur-[1px] border border-white/50 text-white rounded-2xl font-medium hover:backdrop-blur-[2px] hover:border-white/70 transition-all duration-300 hover:-translate-y-1 cursor-pointer">
                 Daftar Alumni
               </button>
             </motion.div>

@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
-import { User, LogOut, Settings, Briefcase, FileText, ChevronDown } from "lucide-react";
+import { User, LogOut, Settings, Briefcase, FileText } from "lucide-react";
 import { createClient } from "@/lib/supabase";
 import { useRouter } from "next/navigation";
 import ConfirmModal from "@/components/ui/ConfirmModal";
@@ -134,13 +134,6 @@ export default function ProfileDropdown({
         <span className="text-white text-sm font-medium hidden sm:block">
           {userName}
         </span>
-
-        {/* Chevron Icon */}
-        <ChevronDown 
-          className={`w-4 h-4 text-white/70 transition-transform duration-300 ${
-            isOpen ? 'rotate-180' : ''
-          }`}
-        />
       </button>
 
       {/* Dropdown Menu */}

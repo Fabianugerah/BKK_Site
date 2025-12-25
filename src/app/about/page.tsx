@@ -4,6 +4,11 @@ import React, { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { Users, Target, Award, TrendingUp, Star, ArrowRight, Play } from 'lucide-react';
 import Image from 'next/image';
+
+import Person1 from '@/assets/images/Person-1.jpg';
+import Person2 from '@/assets/images/Person-2.jpg';
+import Person3 from '@/assets/images/Person-3.jpg';
+
 import Navbar from '../applications/components/Navbar';
 import IndustrySection from '../applications/components/Industry';
 import FooterSection from '../applications/components/Footer';
@@ -24,15 +29,18 @@ export default function AboutPage() {
     /* ================= TIM BKK ================= */
     const team = [
         {
-            name: 'Kepala BKK',
+            photo: Person1, 
+            name: 'H. Arif Wijaya, S.Pd., M.M.',
             role: 'Koordinator Penyaluran Kerja',
         },
         {
-            name: 'Staf Industri',
+            photo: Person2,
+            name: 'Dewi Sartika, S.Kom.',
             role: 'Hubungan Dunia Usaha & Industri',
         },
         {
-            name: 'Staf Alumni',
+            photo: Person3,
+            name: 'Mario Santoso, S.Pd.',
             role: 'Pendampingan & Konseling Karier',
         },
     ];
@@ -81,7 +89,7 @@ export default function AboutPage() {
                                 dan berkelanjutan.
                             </p>
                             <div className="flex items-center gap-4">
-                                <button className="px-8 py-4 bg-neutral-500 hover:bg-neutral-600 text-black rounded-2xl transition-all font-medium">
+                                <button className="px-8 py-3 bg-neutral-500 text-black rounded-2xl font-medium transition-all duration-300 hover:-translate-y-1 cursor-pointer">
                                     Lihat Lowongan
                                 </button>
                                 <div className="flex items-center gap-2">
@@ -220,8 +228,15 @@ export default function AboutPage() {
                                 viewport={{ once: true }}
                                 transition={{ duration: 0.5, delay: index * 0.1 }}
                             >
-                                <div className="aspect-square bg-gray-200 rounded-2xl mb-4 flex items-center justify-center overflow-hidden">
-                                    <Users className="w-24 h-24 text-gray-400" />
+                                <div className="aspect-square bg-gray-200 rounded-2xl mb-4 flex items-center justify-center overflow-hidden relative">
+                                    {member.photo && (
+                                        <Image
+                                            src={member.photo}
+                                            alt={member.name}
+                                            fill
+                                            className="object-cover"
+                                        />
+                                    )}
                                 </div>
                                 <div className="flex items-center justify-between">
                                     <div className="flex flex-col">

@@ -1,12 +1,13 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Search, MapPin, Briefcase, Clock, ArrowRight, Filter } from 'lucide-react';
+import { Search, MapPin, Briefcase, ArrowRight } from 'lucide-react';
 import Image, { StaticImageData } from 'next/image';
 import Navbar from '../applications/components/Navbar';
 import FooterSection from '../applications/components/Footer';
+import CustomSelect from '@/components/ui/CustomSelect';
 
-// Sample company logos (ganti dengan path logo yang sesuai)
+// Sample company logos
 import googleLogo from "@/assets/images/Google_logo.svg";
 import toyotaLogo from "@/assets/images/Toyota.svg";
 import bmwLogo from "@/assets/images/Bmw.svg";
@@ -24,8 +25,26 @@ interface Job {
 
 export default function JobListingsPage() {
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedLocation, setSelectedLocation] = useState('all');
-  const [selectedType, setSelectedType] = useState('all');
+  const [selectedLocation, setSelectedLocation] = useState('');
+  const [selectedType, setSelectedType] = useState('');
+
+  // Options untuk dropdown
+  const locationOptions = [
+    { value: '', label: 'All Locations' },
+    { value: 'Jakarta', label: 'Jakarta' },
+    { value: 'Surabaya', label: 'Surabaya' },
+    { value: 'Bandung', label: 'Bandung' },
+    { value: 'Semarang', label: 'Semarang' },
+    { value: 'Yogyakarta', label: 'Yogyakarta' },
+  ];
+
+  const typeOptions = [
+    { value: '', label: 'All Types' },
+    { value: 'Full-time', label: 'Full-time' },
+    { value: 'Part-time', label: 'Part-time' },
+    { value: 'Contract', label: 'Contract' },
+    { value: 'Internship', label: 'Internship' },
+  ];
 
   const jobs: Job[] = [
     {
@@ -52,7 +71,7 @@ export default function JobListingsPage() {
       id: 3,
       company: 'Google',
       companyLogo: googleLogo,
-      position: 'Senior Webflow Developer',
+      position: 'Senior Frontend Developer',
       location: 'Jakarta',
       type: 'Full-time',
       workModel: 'Remote work',
@@ -62,7 +81,7 @@ export default function JobListingsPage() {
       id: 4,
       company: 'BMW',
       companyLogo: bmwLogo,
-      position: 'Senior Webflow Developer',
+      position: 'Manufacturing Engineer',
       location: 'Bandung',
       type: 'Full-time',
       workModel: 'Hybrid',
@@ -72,7 +91,7 @@ export default function JobListingsPage() {
       id: 5,
       company: 'Google',
       companyLogo: googleLogo,
-      position: 'Senior Webflow Developer',
+      position: 'UI/UX Designer',
       location: 'Jakarta',
       type: 'Part-time',
       workModel: 'Remote work',
@@ -83,8 +102,8 @@ export default function JobListingsPage() {
   const filteredJobs = jobs.filter(job => {
     const matchesSearch = job.position.toLowerCase().includes(searchQuery.toLowerCase()) ||
                          job.company.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesLocation = selectedLocation === 'all' || job.location === selectedLocation;
-    const matchesType = selectedType === 'all' || job.type === selectedType;
+    const matchesLocation = !selectedLocation || job.location === selectedLocation;
+    const matchesType = !selectedType || job.type === selectedType;
     
     return matchesSearch && matchesLocation && matchesType;
   });
@@ -200,7 +219,7 @@ export default function JobListingsPage() {
           {/* Filters */}
           <div className="flex flex-wrap gap-4 mb-8">
             {/* Search */}
-            <div className="flex-1 min-w-[300px]">
+            <div className="flex-1 min-w-[250px]">
               <div className="relative">
                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                 <input
@@ -208,34 +227,26 @@ export default function JobListingsPage() {
                   placeholder="Search position..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:border-transparent"
                 />
               </div>
             </div>
 
-            {/* Location Filter */}
-            <select
+            {/* Location Filter - Custom Dropdown */}
+            <CustomSelect
+              options={locationOptions}
               value={selectedLocation}
-              onChange={(e) => setSelectedLocation(e.target.value)}
-              className="px-6 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 bg-white"
-            >
-              <option value="all">All Locations</option>
-              <option value="Jakarta">Jakarta</option>
-              <option value="Surabaya">Surabaya</option>
-              <option value="Bandung">Bandung</option>
-            </select>
+              onChange={setSelectedLocation}
+              placeholder="All Locations"
+            />
 
-            {/* Type Filter */}
-            <select
+            {/* Type Filter - Custom Dropdown */}
+            <CustomSelect
+              options={typeOptions}
               value={selectedType}
-              onChange={(e) => setSelectedType(e.target.value)}
-              className="px-6 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 bg-white"
-            >
-              <option value="all">All Types</option>
-              <option value="Full-time">Full-time</option>
-              <option value="Part-time">Part-time</option>
-              <option value="Contract">Contract</option>
-            </select>
+              onChange={setSelectedType}
+              placeholder="All Types"
+            />
           </div>
 
           {/* Job Cards */}
