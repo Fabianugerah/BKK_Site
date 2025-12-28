@@ -2,6 +2,7 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { User, LogOut, Settings, Briefcase, FileText } from "lucide-react";
 import { createClient } from "@/lib/supabase";
 import { useRouter } from "next/navigation";
@@ -118,7 +119,7 @@ export default function ProfileDropdown({
         {/* Avatar */}
         <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center overflow-hidden">
           {avatarUrl ? (
-            <img
+            <Image
               src={avatarUrl}
               alt={userName}
               className="w-full h-full object-cover"
@@ -156,7 +157,7 @@ export default function ProfileDropdown({
               <div className="flex items-center gap-3">
                 <div className="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center overflow-hidden">
                   {avatarUrl ? (
-                    <img
+                    <Image
                       src={avatarUrl}
                       alt={userName}
                       className="w-full h-full object-cover"

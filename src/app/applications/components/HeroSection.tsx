@@ -139,7 +139,7 @@ const HeroSection: React.FC = () => {
               variants={textItem}
               className="mt-8 flex flex-col sm:flex-row gap-4"
             >
-              <Link href="/lowongan" className="px-8 py-3 bg-neutral-500 text-black rounded-2xl font-medium transition-all duration-300 hover:-translate-y-1 cursor-pointer">
+              <Link href="/lowongan" className="px-8 py-3 text-center bg-neutral-500 text-black rounded-2xl font-medium transition-all duration-300 hover:-translate-y-1 cursor-pointer">
                 Lihat Lowongan
               </Link>
 
@@ -151,7 +151,7 @@ const HeroSection: React.FC = () => {
             {/* ================= STATS (SCROLL) ================= */}
             <div
               ref={statsRef}
-              className="mt-12 flex flex-col sm:flex-row gap-8 sm:gap-12"
+              className="mt-12 flex flex-row gap-8 md:gap-12"
             >
               {/* Alumni */}
               <div className="min-w-[90px]">

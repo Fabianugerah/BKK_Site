@@ -2,10 +2,11 @@
 
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Send, MapPin, Phone, Mail, Clock, CheckCircle2, ArrowRight } from 'lucide-react';
+import { MapPin, CheckCircle2, ArrowRight } from 'lucide-react';
 import Navbar from '../applications/components/Navbar';
 import FooterSection from '../applications/components/Footer';
 import CustomSelect from '@/components/ui/CustomSelect';
+import Clock from '../applications/components/Clock';
 
 type FormData = {
     firstName: string;
@@ -294,6 +295,7 @@ export default function ContactPage() {
             </main>
 
             <FooterSection />
+            <Clock />
         </div>
     );
 }

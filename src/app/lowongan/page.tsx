@@ -6,6 +6,7 @@ import Image, { StaticImageData } from 'next/image';
 import Navbar from '../applications/components/Navbar';
 import FooterSection from '../applications/components/Footer';
 import CustomSelect from '@/components/ui/CustomSelect';
+import Clock from '../applications/components/Clock';
 
 // Sample company logos
 import googleLogo from "@/assets/images/Google_logo.svg";
@@ -317,6 +318,7 @@ export default function JobListingsPage() {
       </section>
 
       <FooterSection />
+      <Clock />
     </div>
   );
 }

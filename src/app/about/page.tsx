@@ -4,6 +4,7 @@ import React, { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { Users, Target, Award, TrendingUp, Star, ArrowRight, Play } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 import Person1 from '@/assets/images/Person-1.jpg';
 import Person2 from '@/assets/images/Person-2.jpg';
@@ -12,6 +13,7 @@ import Person3 from '@/assets/images/Person-3.jpg';
 import Navbar from '../applications/components/Navbar';
 import IndustrySection from '../applications/components/Industry';
 import FooterSection from '../applications/components/Footer';
+import Clock from '../applications/components/Clock';
 import heroImage from "@/assets/images/smk.png";
 
 export default function AboutPage() {
@@ -89,9 +91,9 @@ export default function AboutPage() {
                                 dan berkelanjutan.
                             </p>
                             <div className="flex items-center gap-4">
-                                <button className="px-8 py-3 bg-neutral-500 text-black rounded-2xl font-medium transition-all duration-300 hover:-translate-y-1 cursor-pointer">
-                                    Lihat Lowongan
-                                </button>
+                                <Link href="/lowongan" className="px-8 py-3 bg-neutral-500 text-black rounded-2xl font-medium transition-all duration-300 hover:-translate-y-1 cursor-pointer">
+                Lihat Lowongan
+              </Link>
                                 <div className="flex items-center gap-2">
                                     <div className="flex -space-x-2">
                                         <div className="w-8 h-8 rounded-full bg-gray-300 border-2 border-white"></div>
@@ -307,6 +309,7 @@ export default function AboutPage() {
             </section>
 
             <FooterSection />
+            <Clock />
         </div>
     );
 }

@@ -45,10 +45,10 @@ export default function Footer() {
     ];
 
     return (
-        <footer className="bg-[#132133] text-white pt-20 px-16">
+        <footer className="bg-[#132133] text-white pt-20 px-4 sm:px-8 lg:px-16">
             <div className="flex flex-col gap-16 max-w-7xl mx-auto">
                 {/* Main Footer Content */}
-                <div className="flex justify-between">
+                <div className="flex flex-col lg:flex-row gap-8 lg:justify-between">
                     {/* Logo Column */}
                     <div className="flex gap-2">
                         <div>
@@ -65,7 +65,8 @@ export default function Footer() {
                         </div>
                     </div>
 
-                    <div className='flex gap-15'>
+                    {/* Footer Links Grid */}
+                    <div className='grid grid-cols-2 sm:grid-cols-3 lg:flex lg:gap-15 gap-8'>
                         {/* Company */}
                         <div className='flex flex-col gap-3'>
                             <h4 className="font-semibold text-md">Company</h4>
@@ -153,25 +154,25 @@ export default function Footer() {
                     </div>
                 </div>
 
-                <div>
+                <div className='pb-4 md:pb-0'>
                     {/* Divider */}
-                    <div className="border-t border-white"></div>
+                    <div className="border-t border-white mb-4 md:mb-0"></div>
 
                     {/* Bottom Footer */}
-                    <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+                    <div className="flex flex-col md:flex-row justify-between items-center gap-4 py-4">
                         {/* Copyright */}
-                        <p className="text-sm text-white">
+                        <p className="text-xs md:text-sm text-white text-center md:text-left">
                             © 2025 BKK SMKN 1 Purwosari. All Rights Reserved.
                         </p>
 
                         {/* Social Links */}
-                        <div className="flex">
+                        <div className="flex gap-2">
                             {socialLinks.map((social, index) => (
                                 <a
                                     key={index}
                                     href={social.href}
                                     aria-label={social.label}
-                                    className="w-10 h-10 flex items-center justify-center transition-all duration-300"
+                                    className="w-10 h-10 flex items-center justify-center hover:bg-white/10 rounded-full transition-all duration-300"
                                 >
                                     <social.icon className="w-5 h-5" />
                                 </a>
@@ -183,7 +184,7 @@ export default function Footer() {
                 {/* Large Background Text */}
                 <div className="relative overflow-hidden">
                     <h2
-                        className="text-[9rem] font-bold text-center leading-none select-none"
+                        className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-[9rem] font-bold text-center leading-none select-none"
                         style={{
                             background: 'linear-gradient(180deg, rgba(208, 208, 208, 1) 30%, rgba(19, 33, 51, 1) 80%)',
                             WebkitBackgroundClip: 'text',

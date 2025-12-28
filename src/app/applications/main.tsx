@@ -9,7 +9,7 @@ import JobsSection from './components/JobsSection';
 import IndustrySection from './components/Industry';
 import FrequentlySection from './components/Frequently';
 import FooterSection from './components/Footer';
-import Clock from './components/Clock'
+import Clock from './components/Clock';
 
 const LandingPage: React.FC = () => {
   return (

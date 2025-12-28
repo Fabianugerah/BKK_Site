@@ -121,7 +121,7 @@ export default function StrategicPartnerStats() {
   };
 
   return (
-    <section ref={sectionRef} className="relative py-20 px-16">
+    <section ref={sectionRef} className="relative py-12 sm:py-16 md:py-20 px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16">
       <motion.div
         variants={container}
         initial="hidden"
@@ -129,16 +129,16 @@ export default function StrategicPartnerStats() {
         className="max-w-7xl mx-auto"
       >
         {/* ================= TOP CONTENT ================= */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-12 mb-12 sm:mb-14 lg:mb-16">
           <motion.div variants={fadeUp}>
-            <h2 className="text-4xl md:text-5xl font-semibold text-gray-950 leading-tight">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold text-gray-950 leading-tight">
               Partner Strategis Anda dalam Penyaluran Kerja
             </h2>
           </motion.div>
 
           <motion.div
             variants={container}
-            className="space-y-12 text-gray-700 text-base md:text-lg"
+            className="space-y-6 sm:space-y-8 lg:space-y-12 text-gray-700 text-sm sm:text-base lg:text-lg"
           >
             <motion.p variants={fadeUp}>
               BKK SMKN 1 Purwosari hadir sebagai penghubung antara siswa, alumni,
@@ -157,32 +157,43 @@ export default function StrategicPartnerStats() {
         {/* ================= DIVIDER ================= */}
         <motion.div
           variants={divider}
-          className="w-full h-px bg-gray-200 mb-16"
+          className="w-full h-px bg-gray-200 mb-12 sm:mb-14 lg:mb-16"
         />
 
         {/* ================= STATS ================= */}
-        <motion.div variants={container} className="flex justify-between">
+        <motion.div 
+          variants={container} 
+          className="flex flex-col md:flex-row md:justify-between md:items-start gap-8 md:gap-6 lg:gap-12"
+        >
           {stats.map((stat, index) => (
             <React.Fragment key={index}>
               <motion.div
                 variants={fadeUp}
-                className="space-y-4 py-4 md:py-0 max-w-[320px]"
+                className="space-y-3 sm:space-y-4 py-4 md:py-0 flex-1 md:max-w-[320px]"
               >
-                <h3 className="text-5xl heading-3_regular text-gray-900 tabular-nums">
+                <h3 className="text-4xl sm:text-5xl heading-3_regular text-gray-900 tabular-nums">
                   {stat.value}
                   {stat.suffix}
                 </h3>
 
-                <p className="text-gray-700 text-base md:text-lg leading-relaxed">
+                <p className="text-gray-700 text-sm sm:text-base lg:text-lg leading-relaxed">
                   {stat.description}
                 </p>
               </motion.div>
 
               {index < stats.length - 1 && (
-                <motion.div
-                  variants={verticalDivider}
-                  className="hidden md:block w-px bg-gray-200"
-                />
+                <>
+                  {/* Horizontal divider for mobile */}
+                  <motion.div
+                    variants={divider}
+                    className="md:hidden w-full h-px bg-gray-200"
+                  />
+                  {/* Vertical divider for desktop */}
+                  <motion.div
+                    variants={verticalDivider}
+                    className="hidden md:block w-px bg-gray-200 self-stretch"
+                  />
+                </>
               )}
             </React.Fragment>
           ))}
